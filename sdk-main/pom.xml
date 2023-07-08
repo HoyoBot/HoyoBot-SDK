@@ -74,7 +74,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>Launcher</mainClass>
+                                    <mainClass>cn.hoyobot.sdk.Launcher</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
