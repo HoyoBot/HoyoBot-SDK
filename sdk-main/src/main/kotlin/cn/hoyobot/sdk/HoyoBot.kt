@@ -61,7 +61,7 @@ open class HoyoBot {
         this.botEntry.botID = this.properties.getString("bot_id")
         this.botEntry.botSecret = this.properties.getString("bot_secret")
         this.address = this.properties.getString("server-ip")
-        this.port = this.properties.getInt("port")
+        this.port = this.properties.getString("port").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
 
         this.properties.save(true)

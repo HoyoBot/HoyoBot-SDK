@@ -181,7 +181,7 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
      * @return
      */
     fun getInt(key: String, defaultValue: Int): Int {
-        return this.get(key, defaultValue as Number).toInt()
+        return this[key, defaultValue].toInt()
     }
 
     /**

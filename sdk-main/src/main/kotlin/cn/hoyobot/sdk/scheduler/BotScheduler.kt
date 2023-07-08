@@ -156,10 +156,12 @@ class BotScheduler {
     }
 
     private fun addTask(plugin: Plugin?, task: Runnable, delay: Int, period: Int, asynchronous: Boolean): TaskHandler? {
-        if (!plugin!!.isEnabled()) {
-            HoyoBot.instance.getLogger()
-                .error("Plugin '" + plugin.name + "' attempted to register a task while disabled.")
-            return null
+        if (plugin != null) {
+            if (!plugin.isEnabled()) {
+                HoyoBot.instance.getLogger()
+                    .error("Plugin '" + plugin.name + "' attempted to register a task while disabled.")
+                return null
+            }
         }
         if (delay < 0 || period < 0) {
             HoyoBot.instance.getLogger().error("Attempted to register a task with negative delay or period.")

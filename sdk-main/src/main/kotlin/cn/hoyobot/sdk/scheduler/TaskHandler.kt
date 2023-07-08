@@ -3,11 +3,11 @@ package cn.hoyobot.sdk.scheduler
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.plugin.Plugin
 
-class TaskHandler(plugin: Plugin, timingName: String?, task: Runnable, taskId: Int, val isAsynchronous: Boolean) {
+class TaskHandler(plugin: Plugin?, timingName: String?, task: Runnable, taskId: Int, val isAsynchronous: Boolean) {
 
     val taskName: String
     val taskId: Int
-    private val plugin: Plugin
+    private val plugin: Plugin?
     val task: Runnable
     var delay = 0
     var period = 0
@@ -28,7 +28,7 @@ class TaskHandler(plugin: Plugin, timingName: String?, task: Runnable, taskId: I
     val isRepeating: Boolean
         get() = period > 0
 
-    fun getPlugin(): Plugin {
+    fun getPlugin(): Plugin? {
         return plugin
     }
 
