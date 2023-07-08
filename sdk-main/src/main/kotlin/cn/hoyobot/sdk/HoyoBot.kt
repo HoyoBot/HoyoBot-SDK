@@ -1,12 +1,15 @@
 package cn.hoyobot.sdk
 
 import cn.hoyobot.sdk.scheduler.BotScheduler
+import cn.hoyobot.sdk.utils.Config
+import cn.hoyobot.sdk.utils.ConfigSection
 import cn.hutool.log.Log
 import cn.hutool.log.LogFactory
 import lombok.Getter
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import java.io.File
+
 
 @SpringBootApplication
 @Getter
@@ -22,6 +25,7 @@ class HoyoBot {
     private val logger: Log = LogFactory.get("HoyoBot")
     private var isRunning = false
     private var botScheduler = BotScheduler()
+    private lateinit var properties: Config
 
     fun main(args: Array<String>) {
         instance = this
@@ -35,6 +39,16 @@ class HoyoBot {
         }
 
         this.logger.info("Loading HoyoBot properties...")
+        properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
+            init {
+                put("bot_id", "")
+                put("bot_secret", "")
+                put("server-ip", "0:0:0:0")
+                put("port", 88)
+                put("http_call_back", "/")
+            }
+        })
+
 
         SpringApplication.run(this.javaClass)
     }

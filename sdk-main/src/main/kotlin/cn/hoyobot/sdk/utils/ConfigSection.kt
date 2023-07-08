@@ -4,7 +4,7 @@ import java.util.*
 import java.util.function.Consumer
 import kotlin.collections.ArrayList
 
-class ConfigSection() : LinkedHashMap<String, Any>() {
+open class ConfigSection() : LinkedHashMap<String, Any>() {
     /**
      * Constructor of ConfigSection that contains initial key/value data
      *
