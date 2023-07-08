@@ -6,12 +6,9 @@ import cn.hoyobot.sdk.utils.ConfigSection
 import cn.hutool.log.Log
 import cn.hutool.log.LogFactory
 import lombok.Getter
-import org.springframework.boot.SpringApplication
-import org.springframework.boot.autoconfigure.SpringBootApplication
 import java.io.File
 
 
-@SpringBootApplication
 @Getter
 class HoyoBot {
 
@@ -50,7 +47,6 @@ class HoyoBot {
         })
 
 
-        SpringApplication.run(this.javaClass)
     }
 
     fun getLogger(): Log {
