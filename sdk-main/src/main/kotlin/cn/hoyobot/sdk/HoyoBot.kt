@@ -34,6 +34,7 @@ open class HoyoBot {
     private var runningTime by Delegates.notNull<Long>()
     private lateinit var raknetInterface: RaknetInterface
     private var currentTick = 0
+    private var httpFilter = false
 
     fun initBotProxy() {
         instance = this
@@ -55,6 +56,7 @@ open class HoyoBot {
                 put("bot_secret", "")
                 put("server-ip", "0:0:0:0")
                 put("port", 80)
+                put("http_filter", false)
                 put("http_call_back", "/bot")
             }
         })
@@ -63,6 +65,7 @@ open class HoyoBot {
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
+        this.httpFilter = this.properties.getBoolean("http_filter", false)
         this.logger.info("Create Bot:\nID: ${botEntry.botID}\nSecret: ${botEntry.botSecret}\nCall_Back: ${this.getHttpCallBackPath()}")
         this.properties.save(true)
         this.initProxy()
@@ -121,6 +124,10 @@ open class HoyoBot {
 
     fun getVersion(): String {
         return this.version
+    }
+
+    fun isEnabledFilter(): Boolean {
+        return this.httpFilter
     }
 
 }

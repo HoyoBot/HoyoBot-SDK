@@ -38,8 +38,9 @@ class ProxyActionHandler : SimpleChannelInboundHandler<FullHttpRequest?>() {
     }
 
     private fun doProxyFilter(request: ProxyRequest, response: ProxyResponse): Boolean {
-        var filter: ProxyFilter = RaknetInfo.getProxyFilter(RaknetInfo.MAPPING_ALL)!!
-        if (!filter.doFilter(request, response)) {
+        if (!HoyoBot.instance.isEnabledFilter()) return true
+        var filter: ProxyFilter? = RaknetInfo.getProxyFilter(RaknetInfo.MAPPING_ALL) ?: return true
+        if (!filter!!.doFilter(request, response)) {
             return false
         }
         filter = RaknetInfo.getProxyFilter(request.path)!!

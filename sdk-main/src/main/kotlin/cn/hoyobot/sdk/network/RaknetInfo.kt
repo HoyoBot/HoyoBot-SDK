@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
 object RaknetInfo {
 
     const val DEFAULT_CHARSET = "utf-8"
-    const val MAPPING_ALL = "/bot"
+    const val MAPPING_ALL = "/"
     const val MAPPING_ERROR = "/_error"
     var charset = DEFAULT_CHARSET
     var port = 80
