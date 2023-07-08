@@ -2,6 +2,7 @@ package cn.hoyobot.sdk.network
 
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.dispatcher.DefaultHttpPatcher
+import cn.hoyobot.sdk.network.dispatcher.ProxyErrorPatcher
 import cn.hoyobot.sdk.network.protocol.ProxyActionInterface
 import cn.hoyobot.sdk.network.protocol.ProxyFilter
 import cn.hoyobot.sdk.network.protocol.ProxyRoute
@@ -16,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap
 object RaknetInfo {
 
     const val DEFAULT_CHARSET = "utf-8"
-    const val MAPPING_ALL = "/*"
+    const val MAPPING_ALL = "/bot"
     const val MAPPING_ERROR = "/_error"
     var charset = DEFAULT_CHARSET
     var port = 80
@@ -26,7 +27,7 @@ object RaknetInfo {
 
     init {
         actionMap[StrUtil.SLASH] = DefaultHttpPatcher()
-        actionMap[MAPPING_ERROR] = DefaultHttpPatcher()
+        actionMap[MAPPING_ERROR] = ProxyErrorPatcher()
     }
 
     private val proxyFilterMap: Map<String, Any>

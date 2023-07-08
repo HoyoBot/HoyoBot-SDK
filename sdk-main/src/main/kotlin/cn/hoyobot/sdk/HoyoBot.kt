@@ -63,7 +63,7 @@ open class HoyoBot {
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
-
+        this.logger.info("Create Bot:\nID: ${botEntry.botID}\nSecret: ${botEntry.botSecret}\nCall_Back: ${this.getHttpCallBackPath()}")
         this.properties.save(true)
         this.initProxy()
     }
