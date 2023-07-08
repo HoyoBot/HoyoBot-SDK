@@ -38,7 +38,7 @@ object RaknetInfo {
         if (StrUtil.isBlank(path)) {
             path = StrUtil.SLASH
         }
-        return proxyFilterMap[path.trim { it <= ' ' }] as ProxyFilter?
+        return proxyFilterMap[path.trim()] as ProxyFilter?
     }
 
     fun setProxyFilterMap(filterMap: MutableMap<String, ProxyFilter>) {
@@ -69,7 +69,7 @@ object RaknetInfo {
         if (StrUtil.isBlank(path)) {
             path = StrUtil.SLASH
         }
-        return getActionMap()[path.trim { it <= ' ' }]
+        return getActionMap()[path.trim()]
     }
 
     fun setActionMap(actionMap: MutableMap<String, ProxyActionInterface>) {

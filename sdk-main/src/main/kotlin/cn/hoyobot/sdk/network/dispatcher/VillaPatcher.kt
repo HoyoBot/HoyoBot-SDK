@@ -10,6 +10,9 @@ import io.netty.handler.codec.http.HttpResponseStatus
 class VillaPatcher : ProxyActionInterface {
     override fun doAction(request: ProxyRequest, response: ProxyResponse) {
         HoyoBot.instance.getLogger().info("Villa: $request")
+        val requestJson = JSONObject()
+        request.getParams().forEach { (key, value) -> requestJson[key] = value }
+        HoyoBot.instance.getLogger().info("JsonData: ${requestJson.toJSONString(0)}")
         val responseJson = JSONObject()
         responseJson["message"] = ""
         responseJson["retcode"] = 0
