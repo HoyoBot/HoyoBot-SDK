@@ -28,7 +28,7 @@ open class HoyoBot {
     private val pluginPath = path + "plugins"
     private val logger: Log = LogFactory.get("HoyoBot")
     private var isRunning = false
-    private var botScheduler = BotScheduler()
+    private lateinit var botScheduler: BotScheduler
     private var botEntry: BotEntry = BotEntry()
     private lateinit var properties: Config
     private var runningTime by Delegates.notNull<Long>()
@@ -47,6 +47,7 @@ open class HoyoBot {
             File(pluginPath).mkdirs()
         }
 
+        this.botScheduler = BotScheduler()
         this.logger.info("Loading HoyoBot properties...")
         properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
             init {
