@@ -1,5 +1,6 @@
 package cn.hoyobot.sdk
 
+
 class Launcher {
 
     companion object {

@@ -7,6 +7,8 @@ import cn.hutool.core.net.NetUtil
 import cn.hutool.core.util.CharsetUtil
 import cn.hutool.core.util.StrUtil
 import cn.hutool.core.util.URLUtil
+import cn.hutool.json.JSONObject
+import io.netty.buffer.ByteBuf
 import io.netty.channel.ChannelHandlerContext
 import io.netty.handler.codec.http.*
 import io.netty.handler.codec.http.HttpHeaderValues.*
@@ -22,6 +24,7 @@ import java.util.*
 
 open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private val nettyRequest: FullHttpRequest) {
     val path: String
+    var jsonData: JSONObject = JSONObject()
     private var ip: String? = null
     private val headers: MutableMap<String, String> = HashMap()
     private val params: MutableMap<String, Any> = HashMap()
@@ -32,15 +35,25 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
         path = URLUtil.getPath(this.uri)
         putHeadersAndCookies(nettyRequest.headers())
         this.putParams(QueryStringDecoder(uri))
+        try {
+            if (nettyRequest.method() == HttpMethod.POST) this.jsonData =
+                JSONObject(nettyRequest.content().toString(Charsets.UTF_8))
+            else if (nettyRequest.method() == HttpMethod.GET && "application/json" == nettyRequest.headers()["Content-Type"]) {
+                val content: ByteBuf = nettyRequest.content()
+                val reqContent = ByteArray(content.readableBytes())
+                content.readBytes(reqContent)
+                val strContent = String(reqContent, Charset.forName("UTF-8"))
+                this.jsonData = JSONObject(strContent)
+            }
+        } catch (_: Exception) {
+        }
         if (nettyRequest.method() !== HttpMethod.GET && "application/octet-stream" != nettyRequest.headers()["Content-Type"]) {
             var decoder: HttpPostRequestDecoder? = null
             try {
                 decoder = HttpPostRequestDecoder(HTTP_DATA_FACTORY, nettyRequest)
                 this.putParams(decoder)
             } finally {
-                if (null != decoder) {
-                    decoder.destroy()
-                }
+                decoder?.destroy()
             }
         }
         putIp(ctx)
@@ -191,10 +204,7 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
         }
     }
 
-    private fun putParams(decoder: HttpPostRequestDecoder?) {
-        if (null == decoder) {
-            return
-        }
+    private fun putParams(decoder: HttpPostRequestDecoder) {
         for (data in decoder.bodyHttpDatas) {
             putParam(data)
         }

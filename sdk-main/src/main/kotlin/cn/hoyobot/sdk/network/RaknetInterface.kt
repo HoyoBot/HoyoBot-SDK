@@ -38,7 +38,7 @@ open class RaknetInterface(private val proxy: HoyoBot) {
                 try {
                     val b = ServerBootstrap()
                     b.group(bossGroup, workerGroup)
-                        .option<Int>(ChannelOption.SO_BACKLOG, 1024)
+                        .option(ChannelOption.SO_BACKLOG, 1024)
                         .channel(NioServerSocketChannel::class.java)
                         .childHandler(object : ChannelInitializer<SocketChannel>() {
                             @Throws(Exception::class)

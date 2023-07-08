@@ -51,6 +51,7 @@ class ProxyActionHandler : SimpleChannelInboundHandler<FullHttpRequest?>() {
     }
 
     private fun doAction(request: ProxyRequest, response: ProxyResponse) {
+        HoyoBot.instance.getLogger().debug("${request.path} 被尝试调用了")
         val action: ProxyActionInterface = RaknetInfo.getAction(request.path)!!
         action.doAction(request, response)
     }

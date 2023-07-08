@@ -65,10 +65,6 @@ object RaknetInfo {
     }
 
     fun getAction(path: String): ProxyActionInterface? {
-        var path = path
-        if (StrUtil.isBlank(path)) {
-            path = StrUtil.SLASH
-        }
         return getActionMap()[path.trim()]
     }
 
