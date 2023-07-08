@@ -20,34 +20,13 @@ object RaknetInfo {
     const val MAPPING_ERROR = "/_error"
     var charset = DEFAULT_CHARSET
     var port = 80
-    lateinit var root: File
+    private lateinit var root: File
     private var filterMap: MutableMap<String, ProxyFilter> = ConcurrentHashMap<String, ProxyFilter>()
     private var actionMap: MutableMap<String, ProxyActionInterface> = ConcurrentHashMap<String, ProxyActionInterface>()
 
     init {
         actionMap[StrUtil.SLASH] = DefaultHttpPatcher()
         actionMap[MAPPING_ERROR] = DefaultHttpPatcher()
-    }
-
-    fun charset(): Charset {
-        return Charset.forName(charset)
-    }
-
-    val isRootAvailable: Boolean = root.isDirectory && root.isHidden == false && root.canRead()
-    val rootPath: String = FileUtil.getAbsolutePath(root)
-
-    fun setRoot(root: String?) {
-        RaknetInfo.root = FileUtil.mkdir(root)
-        HoyoBot.instance.getLogger().debug("Set root to [{}]", RaknetInfo.root.absolutePath)
-    }
-
-    fun setRoot(root: File) {
-        if (!root.exists()) {
-            root.mkdirs()
-        } else if (!root.isDirectory) {
-            throw Exception(StrUtil.format("{} is not a directory!", root.path))
-        }
-        RaknetInfo.root = root
     }
 
     private val proxyFilterMap: Map<String, Any>

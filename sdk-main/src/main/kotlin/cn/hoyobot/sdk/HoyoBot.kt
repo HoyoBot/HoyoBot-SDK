@@ -35,7 +35,7 @@ open class HoyoBot {
     private lateinit var raknetInterface: RaknetInterface
     private var currentTick = 0
 
-    fun main(args: Array<String>) {
+    fun initBotProxy() {
         instance = this
         this.runningTime = System.currentTimeMillis()
         this.logger.info("HoyoBot - ${this.version}")
