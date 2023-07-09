@@ -108,21 +108,23 @@ class PluginManager(proxy: HoyoBot) {
         proxy.getLogger().warn(builder.toString())
     }
 
-    fun enablePlugin(plugin: Plugin?, parent: String?): Boolean {
-        if (plugin!!.isEnabled()) return true
+    fun enablePlugin(plugin: Plugin, parent: String?): Boolean {
+        if (plugin.isEnabled()) return true
         val pluginName = plugin.name
-        for (depend in plugin.getDescription().depends) {
-            if (depend == parent) {
-                proxy.getLogger().warn("§c无法加载插件 $pluginName 因为循环依赖了Library $parent!")
-                return false
-            }
-            val dependPlugin = getPluginByName(depend)
-            if (dependPlugin == null) {
-                proxy.getLogger().warn("§c无法加载插件 $pluginName 因为没安装前置依赖插件 $depend!")
-                return false
-            }
-            if (!dependPlugin.isEnabled() && !enablePlugin(dependPlugin, pluginName)) {
-                return false
+        if (parent != null) {
+            for (depend in plugin.getDescription().depends) {
+                if (depend == parent) {
+                    proxy.getLogger().warn("无法加载插件 $pluginName 因为循环依赖了Library $parent!")
+                    return false
+                }
+                val dependPlugin = getPluginByName(depend)
+                if (dependPlugin == null) {
+                    proxy.getLogger().warn("无法加载插件 $pluginName 因为没安装前置依赖插件 $depend!")
+                    return false
+                }
+                if (!dependPlugin.isEnabled() && !enablePlugin(dependPlugin, pluginName)) {
+                    return false
+                }
             }
         }
         try {
