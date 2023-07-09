@@ -15,7 +15,7 @@ class MsgContentInfo(val value: String) : Message {
         this.entities.forEach {
             run {
                 val entityJson = JSONObject()
-                entityJson.putByPath("entity.type", it.type.getValue())
+                entityJson.putByPath("entity.type", it.type.getType())
                 when (it.type) {
                     MessageEntityType.MENTIONED_BOT -> {
                         entityJson.putByPath("entity.bot_id", it.value)
