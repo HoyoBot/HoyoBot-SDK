@@ -72,9 +72,10 @@
 
 ### Repository可用版本
 
-|  ArtifactId  |          Version           |
-|:------------:|:--------------------------:|
-|   HoyoBot    |            beta            |
+| ArtifactId | Version |
+|:----------:|:-------:|
+|  sdk-main  |  beta   |
+|  sdk-main  |  beta3  |
 
 ### Gradle:
 
@@ -112,8 +113,8 @@
 <dependencies>
     <dependency>
         <groupId>com.github.HoyoBot.HoyoBot-SDK</groupId>
-        <artifactId>HoyoBot</artifactId>
-        <version>beta</version>
+        <artifactId>ExamplePlugin</artifactId>
+        <version>beta3</version>
     </dependency>
 </dependencies>
 ```

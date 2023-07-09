@@ -47,7 +47,11 @@
     </repositories>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.github.HoyoBot.HoyoBot-SDK</groupId>
+            <artifactId>sdk-main</artifactId>
+            <version>beta3</version>
+        </dependency>
     </dependencies>
 
     <properties>
