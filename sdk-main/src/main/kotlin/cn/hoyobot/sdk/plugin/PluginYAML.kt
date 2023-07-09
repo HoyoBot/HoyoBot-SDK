@@ -9,5 +9,5 @@ class PluginYAML {
     var version: String = ""
     var author: String = ""
     var main: String = ""
-    var depends: List<String> = arrayListOf("")
+    var depends: List<String> = emptyList()
 }

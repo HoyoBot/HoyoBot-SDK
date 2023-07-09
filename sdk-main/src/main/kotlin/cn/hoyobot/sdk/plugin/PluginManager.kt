@@ -97,7 +97,7 @@ class PluginManager(proxy: HoyoBot) {
         if (failed.isEmpty()) {
             return
         }
-        val builder = StringBuilder("§c插件加载失败: §e")
+        val builder = StringBuilder("插件加载失败: ")
         while (failed.peek() != null) {
             val plugin = failed.poll()
             builder.append(plugin!!.name)
@@ -111,20 +111,19 @@ class PluginManager(proxy: HoyoBot) {
     fun enablePlugin(plugin: Plugin, parent: String?): Boolean {
         if (plugin.isEnabled()) return true
         val pluginName = plugin.name
-        if (parent != null) {
-            for (depend in plugin.getDescription().depends) {
-                if (depend == parent) {
-                    proxy.getLogger().warn("无法加载插件 $pluginName 因为循环依赖了Library $parent!")
-                    return false
-                }
-                val dependPlugin = getPluginByName(depend)
-                if (dependPlugin == null) {
-                    proxy.getLogger().warn("无法加载插件 $pluginName 因为没安装前置依赖插件 $depend!")
-                    return false
-                }
-                if (!dependPlugin.isEnabled() && !enablePlugin(dependPlugin, pluginName)) {
-                    return false
-                }
+        this.getProxy().getLogger().info("启动插件 $pluginName 中")
+        for (depend in plugin.getDescription().depends) {
+            if (depend == parent) {
+                proxy.getLogger().warn("无法加载插件 $pluginName 因为循环依赖了Library $parent!")
+                return false
+            }
+            val dependPlugin = getPluginByName(depend)
+            if (dependPlugin == null) {
+                proxy.getLogger().warn("无法加载插件 $pluginName 因为没安装前置依赖插件 $depend!")
+                return false
+            }
+            if (!dependPlugin.isEnabled() && !enablePlugin(dependPlugin, pluginName)) {
+                return false
             }
         }
         try {

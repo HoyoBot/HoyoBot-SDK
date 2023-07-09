@@ -39,7 +39,7 @@ public class ExamplePlugin extends Plugin {
                 Message senderMessage = new MsgContentInfo(message);
                 getBotProxy().getBot().sendMessage(roomID, senderMessage, TextType.MESSAGE);
             }
-        }, 20);
+        }, 20*5);
 
         //注册一个监听器,监听SDK发来的事件
         this.getBotProxy().getEventManager().subscribe(ProxyBotStartEvent.class, this::onBotEnabled);

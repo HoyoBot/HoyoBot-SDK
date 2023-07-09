@@ -1,5 +1,6 @@
 package cn.hoyobot.sdk.network
 
+import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hutool.http.HttpRequest

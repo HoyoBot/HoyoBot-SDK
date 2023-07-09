@@ -46,15 +46,11 @@ open class HoyoBot {
         this.runningTime = System.currentTimeMillis()
         this.logger.info("HoyoBot - ${this.version}")
         this.logger.info("Find updates at: https://github.com/HoyoBot/HoyoBot-SDK")
-        this.isRunning = true
 
         if (!File(pluginPath).exists()) {
             File(pluginPath).mkdirs()
         }
 
-        this.botScheduler = BotScheduler()
-        this.eventManager = EventManager(this)
-        this.pluginManager = PluginManager(this)
         this.logger.info("Loading HoyoBot properties...")
         properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
             init {
@@ -75,16 +71,23 @@ open class HoyoBot {
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
         this.logger.info("Create bot successfully!")
+
+        this.botScheduler = BotScheduler()
+        this.eventManager = EventManager(this)
         this.properties.save(true)
+
+        this.raknetInterface = RaknetInterface(this)
+        this.raknetInterface.start()
+
+        this.getLogger().info("Loading plugins...")
+        this.pluginManager = PluginManager(this)
+        this.getPluginManager().enableAllPlugins()
+
         this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
     }
 
     private fun initProxy() {
-        this.raknetInterface = RaknetInterface(this)
-        this.raknetInterface.start()
-        this.getLogger().info("Loading plugins...")
-        this.getPluginManager().enableAllPlugins()
         this.getLogger().info("Totally load ${this.getPluginManager().getPluginMap().size} plugins")
         this.isRunning = true
         this.getLogger()
