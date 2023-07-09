@@ -1,6 +1,5 @@
 package cn.hoyobot.sdk.network
 
-import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.Member
 import cn.hoyobot.sdk.network.protocol.mihoyo.MihoyoAPI
 import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
@@ -76,6 +75,12 @@ class BotEntry {
         } catch (_: Exception) {
         }
         return memberList
+    }
+
+    fun kickMember(uid: Int) {
+        val params = JSONObject()
+        params["uid"] = uid
+        this.request(MihoyoAPI.API_MEMBER_KICK, params, Method.POST)
     }
 
     private fun request(api: String): HttpResponse {
