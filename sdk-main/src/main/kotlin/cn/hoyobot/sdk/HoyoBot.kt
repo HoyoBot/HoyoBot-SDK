@@ -4,9 +4,7 @@ import cn.hoyobot.sdk.event.EventManager
 import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
-import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo
-import cn.hoyobot.sdk.network.protocol.type.MessageEntityType
-import cn.hoyobot.sdk.network.protocol.type.TextType
+import cn.hoyobot.sdk.plugin.PluginManager
 import cn.hoyobot.sdk.scheduler.BotScheduler
 import cn.hoyobot.sdk.utils.Config
 import cn.hoyobot.sdk.utils.ConfigSection
@@ -35,6 +33,7 @@ open class HoyoBot {
     private var isRunning = false
     private lateinit var botScheduler: BotScheduler
     private lateinit var eventManager: EventManager
+    private lateinit var pluginManager: PluginManager
     private var botEntry: BotEntry = BotEntry()
     private lateinit var properties: Config
     private var runningTime by Delegates.notNull<Long>()
@@ -49,13 +48,13 @@ open class HoyoBot {
         this.logger.info("Find updates at: https://github.com/HoyoBot/HoyoBot-SDK")
         this.isRunning = true
 
-        //TODO: Plugin Loader
         if (!File(pluginPath).exists()) {
             File(pluginPath).mkdirs()
         }
 
         this.botScheduler = BotScheduler()
         this.eventManager = EventManager(this)
+        this.pluginManager = PluginManager(this)
         this.logger.info("Loading HoyoBot properties...")
         properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
             init {
@@ -75,7 +74,7 @@ open class HoyoBot {
         this.port = this.properties.getString("port").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
-        this.logger.info("Create Bot:\nID: ${botEntry.botID}\nSecret: ${botEntry.botSecret}\nCall_Back: ${this.getHttpCallBackPath()}")
+        this.logger.info("Create bot successfully!")
         this.properties.save(true)
         this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
@@ -84,6 +83,9 @@ open class HoyoBot {
     private fun initProxy() {
         this.raknetInterface = RaknetInterface(this)
         this.raknetInterface.start()
+        this.getLogger().info("Loading plugins...")
+        this.getPluginManager().enableAllPlugins()
+        this.getLogger().info("Totally load ${this.getPluginManager().getPluginMap().size} plugins")
         this.isRunning = true
         this.getLogger()
             .info("Done! HoyoBot is running on " + port + ". (" + (System.currentTimeMillis() - this.runningTime) + "ms)")
@@ -93,6 +95,7 @@ open class HoyoBot {
 
     private fun shutdown() {
         isRunning = false
+        this.pluginManager.disableAllPlugins()
         exitProcess(0)
     }
 
@@ -111,7 +114,7 @@ open class HoyoBot {
         }
     }
 
-    private fun getEventManager(): EventManager {
+    fun getEventManager(): EventManager {
         return this.eventManager
     }
 
@@ -150,6 +153,10 @@ open class HoyoBot {
 
     fun getVillaID(): String {
         return this.botEntry.villaID
+    }
+
+    fun getPluginManager(): PluginManager {
+        return this.pluginManager
     }
 
 }

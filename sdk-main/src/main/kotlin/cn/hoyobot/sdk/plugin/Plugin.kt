@@ -23,7 +23,7 @@ abstract class Plugin {
     private lateinit var config: Config
     private var initialized = false
 
-    protected fun init(description: PluginYAML, proxy: HoyoBot, pluginFile: File) {
+    fun init(description: PluginYAML, proxy: HoyoBot, pluginFile: File) {
         Preconditions.checkArgument(!initialized, "Plugin has been already initialized!")
         initialized = true
         this.description = description
