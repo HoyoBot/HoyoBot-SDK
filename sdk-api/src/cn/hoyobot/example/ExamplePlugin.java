@@ -20,6 +20,7 @@ public class ExamplePlugin extends Plugin {
         this.botEntry = this.getBotProxy().getBot();
 
         //为你的插件生成一个配置文件
+        this.saveResource("config.yml");
         Config config = this.getConfig();
         //从配置文件获取值
         this.roomID = config.getInt("room_id");
