@@ -15,7 +15,7 @@ abstract class Plugin {
 
     private var enabled = false
     private lateinit var description: PluginYAML
-    private lateinit var botProxy: HoyoBot
+    private var botProxy: HoyoBot = HoyoBot.instance
     private var logger: Log = botProxy.getLogger()
     private lateinit var pluginFile: File
     private lateinit var dataFolder: File
