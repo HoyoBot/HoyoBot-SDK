@@ -81,6 +81,7 @@ open class HoyoBot {
         this.isRunning = true
         this.getLogger()
             .info("Done! HoyoBot is running on " + port + ". (" + (System.currentTimeMillis() - this.runningTime) + "ms)")
+        this.botEntry.sendMessage(39868, MsgContentInfo("你好呀"), TextType.MESSAGE)
         this.tickProcessor()
         this.shutdown()
     }
@@ -132,6 +133,10 @@ open class HoyoBot {
 
     fun isEnabledFilter(): Boolean {
         return this.httpFilter
+    }
+
+    fun getVillaID(): String {
+        return this.botEntry.villaID
     }
 
 }
