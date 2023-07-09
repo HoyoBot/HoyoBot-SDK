@@ -31,22 +31,20 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
     private val cookies: MutableMap<String, Cookie> = HashMap()
 
     init {
+        try {
+            if (nettyRequest.method() == HttpMethod.POST) this.jsonData =
+                JSONObject(nettyRequest.content().toString(Charsets.UTF_8))
+            if (this.jsonData.isEmpty()) {
+                val content: ByteBuf = nettyRequest.content()
+                val reqContent = ByteArray(content.readableBytes())
+                this.jsonData = JSONObject(reqContent.toString(Charset.forName("UTF-8")))
+            }
+        } catch (_: Exception) {
+        }
         val uri = nettyRequest.uri()
         path = URLUtil.getPath(this.uri)
         putHeadersAndCookies(nettyRequest.headers())
         this.putParams(QueryStringDecoder(uri))
-        try {
-            if (nettyRequest.method() == HttpMethod.POST) this.jsonData =
-                JSONObject(nettyRequest.content().toString(Charsets.UTF_8))
-            else if (nettyRequest.method() == HttpMethod.GET && "application/json" == nettyRequest.headers()["Content-Type"]) {
-                val content: ByteBuf = nettyRequest.content()
-                val reqContent = ByteArray(content.readableBytes())
-                content.readBytes(reqContent)
-                val strContent = String(reqContent, Charset.forName("UTF-8"))
-                this.jsonData = JSONObject(strContent)
-            }
-        } catch (_: Exception) {
-        }
         if (nettyRequest.method() !== HttpMethod.GET && "application/octet-stream" != nettyRequest.headers()["Content-Type"]) {
             var decoder: HttpPostRequestDecoder? = null
             try {
