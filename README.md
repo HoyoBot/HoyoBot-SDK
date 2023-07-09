@@ -45,7 +45,7 @@
 ## 安装 & 运行
 
 - 从Java CI: https://ci.lanink.cn/job/HoyoBot-SDK/
-- 下载最新版构建 `NoCheatPlus-1.0-SNAPSHOT-jar-with-dependencies.jar`
+- 下载最新版构建 `sdk-main-1.0.0-jar-with-dependencies.jar`
 - (跳转链接): [CI](https://ci.lanink.cn/job/HoyoBot-SDK/)
 - 将它放进你的服务器
 - 使用命令 `java -jar (下载的文件名)` 即可运行

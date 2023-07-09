@@ -21,7 +21,7 @@ public class ExamplePlugin extends Plugin {
 
         //为你的插件生成一个配置文件
         this.saveResource("config.yml");
-        Config config = this.getConfig();
+        Config config = new Config(this.getBotProxy().getPluginPath() + this.getDescription().getName() + "/config.yml", Config.YAML);
         //从配置文件获取值
         this.roomID = config.getInt("room_id");
         this.message = config.getString("message");
