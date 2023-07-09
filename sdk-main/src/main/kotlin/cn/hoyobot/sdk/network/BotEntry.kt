@@ -1,9 +1,10 @@
 package cn.hoyobot.sdk.network
 
+import cn.hoyobot.sdk.HoyoBot
+import cn.hoyobot.sdk.network.protocol.mihoyo.Member
 import cn.hoyobot.sdk.network.protocol.mihoyo.MihoyoAPI
 import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
-import cn.hutool.http.HttpRequest
-import cn.hutool.http.HttpResponse
+import cn.hutool.http.*
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 import io.netty.handler.codec.http.HttpHeaderValues.APPLICATION_JSON
@@ -19,22 +20,42 @@ class BotEntry {
         val response = this.request(MihoyoAPI.API_VILLA)
         val jsonObject = JSONObject(response.body())
         val villa = Villa()
-        villa.name = jsonObject.getByPath("data.villa.name").toString()
-        villa.villaAvatarUrl = jsonObject.getByPath("data.villa.villa_avatar_url").toString()
-        villa.isOfficial = jsonObject.getByPath("data.villa.is_official").toString().toBoolean()
-        villa.ownerUID = jsonObject.getByPath("data.villa.owner_uid").toString().toInt()
-        villa.id = jsonObject.getByPath("data.villa.villa_id").toString().toInt()
-        villa.introduce = jsonObject.getByPath("data.villa.introduce").toString()
-        (jsonObject.getByPath("data.villa.tags") as JSONArray).forEachIndexed { _, any -> villa.tags.add(any as String) }
+        try {
+            villa.name = jsonObject.getByPath("data.villa.name").toString()
+            villa.villaAvatarUrl = jsonObject.getByPath("data.villa.villa_avatar_url").toString()
+            villa.isOfficial = jsonObject.getByPath("data.villa.is_official").toString().toBoolean()
+            villa.ownerUID = jsonObject.getByPath("data.villa.owner_uid").toString().toInt()
+            villa.id = jsonObject.getByPath("data.villa.villa_id").toString().toInt()
+            villa.introduce = jsonObject.getByPath("data.villa.introduce").toString()
+            (jsonObject.getByPath("data.villa.tags") as JSONArray).forEachIndexed { _, any -> villa.tags.add(any as String) }
+        } catch (_: Exception) {
+        }
 
         return villa
     }
 
-    fun sendMessage(message: String) {
-
+    fun getMember(id: Int): Member {
+        val params = JSONObject()
+        params["uid"] = id
+        val response = this.request(MihoyoAPI.API_MEMBER, params, Method.GET)
+        val jsonObject = JSONObject(response.body())
+        val member = Member()
+        try {
+            member.joinAt = jsonObject.getByPath("data.member.joined_at").toString().toLong()
+            member.uid = jsonObject.getByPath("data.member.basic.uid").toString().toInt()
+            member.avatarUrl = jsonObject.getByPath("data.member.basic.avatar_url").toString()
+            member.introduce = jsonObject.getByPath("data.member.basic.introduce").toString()
+            member.name = jsonObject.getByPath("data.member.basic.nickname").toString()
+        } catch (_: Exception) {
+        }
+        return member
     }
 
     private fun request(api: String): HttpResponse {
+        return this.request(api, JSONObject(), Method.GET)
+    }
+
+    private fun request(api: String, params: JSONObject, method: Method): HttpResponse {
         var request = HttpRequest(api)
         request.contentType(APPLICATION_JSON.toString())
         val map: MutableMap<String, String> = HashMap()
@@ -42,7 +63,9 @@ class BotEntry {
         map["x-rpc-bot_secret"] = this.botSecret
         map["x-rpc-bot_villa_id"] = this.villaID
         request = request.addHeaders(map)
+        request.form(params)
+        request.method(method)
+        if (method == Method.POST) request.header(GlobalHeaders.INSTANCE.headers())
         return request.execute()
-
     }
 }
