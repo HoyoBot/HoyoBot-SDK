@@ -34,6 +34,7 @@
                 <directory>${basedir}</directory>
                 <includes>
                     <include>plugin.yml</include>
+                    <include>config.yml</include>
                 </includes>
             </resource>
         </resources>
