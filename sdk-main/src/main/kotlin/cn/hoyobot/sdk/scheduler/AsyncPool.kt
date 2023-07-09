@@ -22,7 +22,7 @@ class AsyncPool(server: HoyoBot, size: Int) {
                 init {
                     isDaemon = true
                     name = String.format(
-                        "Nukkit Asynchronous Task Handler #%s",
+                        "HoyoBot Asynchronous Task Handler #%s",
                         currentThread.incrementAndGet()
                     )
                 }
