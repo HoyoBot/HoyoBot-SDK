@@ -223,7 +223,7 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
                 try {
                     this.putParam(data.getName(), fileUpload.file)
                 } catch (e: IOException) {
-                    HoyoBot.instance.getLogger().error(e, "Get file param [{}] error!", data.getName())
+                    HoyoBot.instance.getLogger().error("Get file param [${data.name}] error!", e)
                 }
             }
         }

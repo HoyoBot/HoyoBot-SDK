@@ -129,7 +129,7 @@ class PluginManager(proxy: HoyoBot) {
         try {
             plugin.setEnabled(true)
         } catch (e: Exception) {
-            proxy.getLogger().error(e.message, e.cause)
+            proxy.getLogger().error(e)
             return false
         }
         return true
@@ -141,7 +141,7 @@ class PluginManager(proxy: HoyoBot) {
             try {
                 plugin.setEnabled(false)
             } catch (e: Exception) {
-                proxy.getLogger().error(e.message, e.cause)
+                proxy.getLogger().error(e)
             }
         }
     }

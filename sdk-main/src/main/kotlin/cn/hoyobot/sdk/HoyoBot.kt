@@ -2,6 +2,7 @@ package cn.hoyobot.sdk
 
 import cn.hoyobot.sdk.event.EventManager
 import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent
+import cn.hoyobot.sdk.logger.Logger
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
 import cn.hoyobot.sdk.plugin.PluginManager
@@ -29,7 +30,8 @@ open class HoyoBot {
     private val version = "1.0.0"
     private val path = System.getProperty("user.dir") + "/"
     private val pluginPath = path + "plugins"
-    private val logger: Log = LogFactory.get("HoyoBot")
+    private val subLogger: Log = LogFactory.get("HoyoBot")
+    private lateinit var logger: Logger
     private var isRunning = false
     private lateinit var botScheduler: BotScheduler
     private lateinit var eventManager: EventManager
@@ -39,10 +41,12 @@ open class HoyoBot {
     private var runningTime by Delegates.notNull<Long>()
     private lateinit var raknetInterface: RaknetInterface
     private var currentTick = 0
+    private var discardOldLogs = 1
     private var httpFilter = false
 
     fun initBotProxy() {
         instance = this
+        this.logger = Logger()
         this.runningTime = System.currentTimeMillis()
         this.logger.info("HoyoBot - ${this.version}")
         this.logger.info("Find updates at: https://github.com/HoyoBot/HoyoBot-SDK")
@@ -59,6 +63,7 @@ open class HoyoBot {
                 put("server-ip", "0:0:0:0")
                 put("port", 80)
                 put("villa-id", "0")
+                put("discard-old-logs-days", "1")
                 put("http_filter", false)
                 put("http_call_back", "/bot")
             }
@@ -68,6 +73,7 @@ open class HoyoBot {
         this.botEntry.villaID = this.properties.getString("villa-id")
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
+        this.discardOldLogs = this.properties.getString("discard-old-logs-days").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
         this.logger.info("Create bot successfully!")
@@ -112,7 +118,7 @@ open class HoyoBot {
             try {
                 Thread.sleep(1)
             } catch (e: InterruptedException) {
-                logger.error(e)
+                logger.error(e.stackTraceToString())
             }
         }
     }
@@ -126,8 +132,12 @@ open class HoyoBot {
         this.getScheduler().mainThreadHeartbeat(this.currentTick)
     }
 
-    fun getLogger(): Log {
+    fun getLogger(): Logger {
         return this.logger
+    }
+
+    fun getSubLogger(): Log {
+        return this.subLogger
     }
 
     fun getPluginPath(): String {
@@ -160,6 +170,14 @@ open class HoyoBot {
 
     fun getPluginManager(): PluginManager {
         return this.pluginManager
+    }
+
+    fun getPath(): String {
+        return this.path
+    }
+
+    fun getDiscardOldLogsDays(): Int {
+        return this.discardOldLogs
     }
 
 }

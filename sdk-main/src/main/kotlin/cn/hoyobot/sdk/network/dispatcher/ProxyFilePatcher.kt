@@ -9,7 +9,7 @@ import java.io.RandomAccessFile
 
 class ProxyFileListener(private val raf: RandomAccessFile) : ChannelProgressiveFutureListener {
     override fun operationProgressed(future: ChannelProgressiveFuture, progress: Long, total: Long) {
-        HoyoBot.instance.getLogger().debug("Transfer progress: {} / {}", progress, total)
+        HoyoBot.instance.getLogger().debug("Transfer progress: $progress / $total")
     }
 
     override fun operationComplete(future: ChannelProgressiveFuture) {

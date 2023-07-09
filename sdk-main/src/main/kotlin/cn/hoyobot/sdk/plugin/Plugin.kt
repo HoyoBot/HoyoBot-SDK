@@ -1,22 +1,22 @@
 package cn.hoyobot.sdk.plugin
 
 import cn.hoyobot.sdk.HoyoBot
+import cn.hoyobot.sdk.logger.PluginLogger
 import cn.hoyobot.sdk.utils.Config
 import cn.hoyobot.sdk.utils.FileUtils
-import cn.hutool.log.Log
 import com.google.common.base.Preconditions
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import java.util.*
 import java.util.jar.JarFile
-
 
 abstract class Plugin {
 
     private var enabled = false
     private lateinit var description: PluginYAML
     private var botProxy: HoyoBot = HoyoBot.instance
-    private var logger: Log = botProxy.getLogger()
+    private lateinit var logger: PluginLogger
     private lateinit var pluginFile: File
     private lateinit var dataFolder: File
     private lateinit var configFile: File
@@ -28,9 +28,9 @@ abstract class Plugin {
         initialized = true
         this.description = description
         this.botProxy = proxy
-        logger = proxy.getLogger()
+        logger = PluginLogger(this)
         this.pluginFile = pluginFile
-        dataFolder = File((proxy.getPluginPath() + "/" + description.name.toLowerCase()) + "/")
+        dataFolder = File((proxy.getPluginPath() + "/" + description.name.lowercase(Locale.getDefault())) + "/")
         if (!dataFolder.exists()) {
             dataFolder.mkdirs()
         }
@@ -49,7 +49,7 @@ abstract class Plugin {
             val entry = pluginJar.getJarEntry(filename)
             return pluginJar.getInputStream(entry)
         } catch (e: IOException) {
-            botProxy.getLogger().error("Can not get plugin resource!", e)
+            botProxy.getLogger().error("Can not get plugin resource!\n${e.stackTraceToString()}")
         }
         return null
     }
@@ -80,7 +80,7 @@ abstract class Plugin {
                 FileUtils.writeFile(file, resource)
             }
         } catch (e: IOException) {
-            botProxy.getLogger().error("Can not save plugin file!", e)
+            botProxy.getLogger().error("Can not save plugin file!\n${e.stackTraceToString()}")
             return false
         }
         return true
@@ -115,7 +115,7 @@ abstract class Plugin {
                 onDisable()
             }
         } catch (e: Exception) {
-            logger.error(e)
+            logger.error(e.stackTraceToString())
         }
     }
 
@@ -125,6 +125,10 @@ abstract class Plugin {
 
     val name: String
         get() = description.name
+
+    fun getLogger(): PluginLogger {
+        return this.logger
+    }
 
     fun getBotProxy(): HoyoBot {
         return botProxy
