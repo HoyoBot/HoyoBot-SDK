@@ -4,6 +4,7 @@ import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.Member
 import cn.hoyobot.sdk.network.protocol.mihoyo.MihoyoAPI
 import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
+import cn.hoyobot.sdk.network.protocol.mihoyo.VillaMemberList
 import cn.hutool.http.*
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
@@ -49,6 +50,32 @@ class BotEntry {
         } catch (_: Exception) {
         }
         return member
+    }
+
+    fun getMemberList(offsetStr: String, size: Int): VillaMemberList {
+        val params = JSONObject()
+        params["offset_str"] = offsetStr
+        params["size"] = size
+        val response = this.request(MihoyoAPI.API_MEMBER_LIST, params, Method.GET)
+        val jsonObject = JSONObject(response.body())
+        val memberList = VillaMemberList()
+        try {
+            memberList.nextOffsetStr = jsonObject.getByPath("data.next_offset_str").toString()
+            (jsonObject.getByPath("data.list") as JSONArray).forEachIndexed { _, any ->
+                run {
+                    val memberJsonData = any as JSONObject
+                    val member = Member()
+                    member.joinAt = memberJsonData.getLong("joined_at")
+                    member.uid = memberJsonData.getByPath("basic.uid").toString().toInt()
+                    member.avatarUrl = memberJsonData.getByPath("basic.avatar_url").toString()
+                    member.introduce = memberJsonData.getByPath("basic.introduce").toString()
+                    member.name = memberJsonData.getByPath("basic.nickname").toString()
+                    memberList.members.add(member)
+                }
+            }
+        } catch (_: Exception) {
+        }
+        return memberList
     }
 
     private fun request(api: String): HttpResponse {
