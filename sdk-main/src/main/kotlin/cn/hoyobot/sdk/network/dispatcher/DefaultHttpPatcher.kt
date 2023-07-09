@@ -11,7 +11,6 @@ class DefaultHttpPatcher : ProxyActionInterface {
 
     override fun doAction(request: ProxyRequest, response: ProxyResponse) {
         response.setContent("HoyoBot Server ${HoyoBot.instance.getVersion()}")
-        HoyoBot.instance.getLogger().info("Default: $request")
         //https://webstatic.mihoyo.com/vila/bot/doc/flow.html
         //开发者应返回状态码200
         response.setStatus(HttpResponseStatus.OK)

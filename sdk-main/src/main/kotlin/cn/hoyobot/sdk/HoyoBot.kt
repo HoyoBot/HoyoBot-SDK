@@ -1,5 +1,7 @@
 package cn.hoyobot.sdk
 
+import cn.hoyobot.sdk.command.*
+import cn.hoyobot.sdk.command.console.TerminalConsole
 import cn.hoyobot.sdk.event.EventManager
 import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent
 import cn.hoyobot.sdk.logger.Logger
@@ -36,6 +38,9 @@ open class HoyoBot {
     private lateinit var botScheduler: BotScheduler
     private lateinit var eventManager: EventManager
     private lateinit var pluginManager: PluginManager
+    private lateinit var consoleSender: CommandSender
+    private lateinit var commandMap: CommandMap
+    private lateinit var console: TerminalConsole
     private var botEntry: BotEntry = BotEntry()
     private lateinit var properties: Config
     private var runningTime by Delegates.notNull<Long>()
@@ -89,6 +94,10 @@ open class HoyoBot {
         this.pluginManager = PluginManager(this)
         this.getPluginManager().enableAllPlugins()
 
+        this.commandMap = DefaultCommandMap(this, SimpleCommandMap.DEFAULT_PREFIX)
+        this.console = TerminalConsole(this)
+        this.consoleSender = ConsoleCommandSender(this)
+
         this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
     }
@@ -98,11 +107,58 @@ open class HoyoBot {
         this.isRunning = true
         this.getLogger()
             .info("Done! HoyoBot is running on " + port + ". (" + (System.currentTimeMillis() - this.runningTime) + "ms)")
+        this.console.consoleThread.start()
         this.tickProcessor()
         this.shutdown()
     }
 
-    private fun shutdown() {
+    open fun dispatchCommand(sender: CommandSender, message: String): Boolean {
+        if (message.trim { it <= ' ' }.isEmpty()) return false
+        val args = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        if (args.isEmpty()) return false
+        val command = getCommandMap().getCommand(args[0])
+        var shiftedArgs = arrayOf("")
+        if (command.settings.isQuoteAware) {
+            val `val`: ArrayList<String> = this.parseArguments(message)
+            `val`.removeAt(0)
+            shiftedArgs = `val`.toArray(arrayOf())
+        }
+        return commandMap.handleCommand(sender, args[0], shiftedArgs)
+    }
+
+    private fun parseArguments(cmdLine: String?): ArrayList<String> {
+        val sb = StringBuilder(cmdLine)
+        val args = ArrayList<String>()
+        var notQuoted = true
+        var start = 0
+        var i = 0
+        while (i < sb.length) {
+            if (sb[i] == '\\') {
+                sb.deleteCharAt(i)
+                i++
+                continue
+            }
+            if (sb[i] == ' ' && notQuoted) {
+                val arg = sb.substring(start, i)
+                if (arg.isNotEmpty()) {
+                    args.add(arg)
+                }
+                start = i + 1
+            } else if (sb[i] == '"') {
+                sb.deleteCharAt(i)
+                --i
+                notQuoted = !notQuoted
+            }
+            i++
+        }
+        val arg = sb.substring(start)
+        if (arg.isNotEmpty()) {
+            args.add(arg)
+        }
+        return args
+    }
+
+    fun shutdown() {
         isRunning = false
         this.pluginManager.disableAllPlugins()
         exitProcess(0)
@@ -178,6 +234,18 @@ open class HoyoBot {
 
     fun getDiscardOldLogsDays(): Int {
         return this.discardOldLogs
+    }
+
+    fun isRunning(): Boolean {
+        return this.isRunning
+    }
+
+    fun getConsoleSender(): CommandSender {
+        return this.consoleSender
+    }
+
+    fun getCommandMap(): CommandMap {
+        return this.commandMap
     }
 
 }

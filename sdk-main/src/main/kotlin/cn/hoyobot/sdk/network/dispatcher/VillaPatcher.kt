@@ -9,11 +9,14 @@ import io.netty.handler.codec.http.HttpResponseStatus
 
 class VillaPatcher : ProxyActionInterface {
     override fun doAction(request: ProxyRequest, response: ProxyResponse) {
-        HoyoBot.instance.getLogger().info("Villa: $request")
+
+        //HoyoBot.instance.getLogger().debug("Villa: $request")
         val requestJson = request.jsonData
-        request.getParams().forEach { (key, value) -> requestJson[key] = value }
-        HoyoBot.instance.getLogger()
-            .info("JsonData: size: ${request.getParams().size}\n ${requestJson.toJSONString(4)}")
+        //HoyoBot.instance.getLogger()
+        //    .info("JsonData: size: ${request.getParams().size}\n ${requestJson.toJSONString(4)}")
+        //处理来自米哈游的请求
+
+
         val responseJson = JSONObject()
         responseJson["message"] = ""
         responseJson["retcode"] = 0
