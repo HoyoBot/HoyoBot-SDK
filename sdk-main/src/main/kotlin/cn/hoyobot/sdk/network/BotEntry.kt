@@ -1,10 +1,11 @@
 package cn.hoyobot.sdk.network
 
-import cn.hoyobot.sdk.network.protocol.mihoyo.Member
-import cn.hoyobot.sdk.network.protocol.mihoyo.MihoyoAPI
-import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
-import cn.hoyobot.sdk.network.protocol.mihoyo.VillaMemberList
-import cn.hutool.http.*
+import cn.hoyobot.sdk.HoyoBot
+import cn.hoyobot.sdk.network.protocol.mihoyo.*
+import cn.hoyobot.sdk.network.protocol.type.TextType
+import cn.hutool.http.HttpRequest
+import cn.hutool.http.HttpResponse
+import cn.hutool.http.Method
 import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 import io.netty.handler.codec.http.HttpHeaderValues.APPLICATION_JSON
@@ -83,21 +84,46 @@ class BotEntry {
         this.request(MihoyoAPI.API_MEMBER_KICK, params, Method.POST)
     }
 
+    fun sendMessage(room: Int, message: Message, type: TextType) {
+        when (type) {
+            TextType.MESSAGE -> {
+                if (message is MsgContentInfo) {
+                    val params = JSONObject()
+                    params["msg_content"] = message.build().toJSONString(1)
+                    HoyoBot.instance.getLogger().info("发送\n${params["msg_content"]}")
+                    params["room_id"] = room.toLong()
+                    params["object_name"] = type.getType()
+                    val response = this.request(MihoyoAPI.API_MESSAGE, params, Method.POST)
+                    HoyoBot.instance.getLogger().info(JSONObject(response.body()).toJSONString(4))
+                }
+            }
+            else -> {}
+        }
+    }
+
     private fun request(api: String): HttpResponse {
         return this.request(api, JSONObject(), Method.GET)
     }
 
     private fun request(api: String, params: JSONObject, method: Method): HttpResponse {
-        var request = HttpRequest(api)
-        request.contentType(APPLICATION_JSON.toString())
-        val map: MutableMap<String, String> = HashMap()
-        map["x-rpc-bot_id"] = this.botID
-        map["x-rpc-bot_secret"] = this.botSecret
-        map["x-rpc-bot_villa_id"] = this.villaID
-        request = request.addHeaders(map)
-        request.form(params)
-        request.method(method)
-        if (method == Method.POST) request.header(GlobalHeaders.INSTANCE.headers())
-        return request.execute()
+        if (method == Method.GET) {
+            var request = HttpRequest(api)
+            request.contentType(APPLICATION_JSON.toString())
+            val map: MutableMap<String, String> = HashMap()
+            map["x-rpc-bot_id"] = this.botID
+            map["x-rpc-bot_secret"] = this.botSecret
+            map["x-rpc-bot_villa_id"] = this.villaID
+            request = request.addHeaders(map)
+            request.form(params)
+            request.method(method)
+            return request.execute()
+        } else {
+            val map: MutableMap<String, String> = HashMap()
+            map["Content-Type"] = "application/json;charset=UTF-8"
+            map["x-rpc-bot_id"] = this.botID
+            map["x-rpc-bot_secret"] = this.botSecret
+            map["x-rpc-bot_villa_id"] = this.villaID
+            return HttpRequest.post(api).addHeaders(map).body(params.toString()).timeout(5 * 60 * 1000).execute()
+        }
     }
 }

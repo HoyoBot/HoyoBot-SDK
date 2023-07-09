@@ -2,6 +2,8 @@ package cn.hoyobot.sdk
 
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
+import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo
+import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hoyobot.sdk.scheduler.BotScheduler
 import cn.hoyobot.sdk.utils.Config
 import cn.hoyobot.sdk.utils.ConfigSection
