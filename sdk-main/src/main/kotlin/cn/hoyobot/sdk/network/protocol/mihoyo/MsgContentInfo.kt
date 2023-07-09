@@ -2,15 +2,16 @@ package cn.hoyobot.sdk.network.protocol.mihoyo
 
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.type.MessageEntityType
+import cn.hutool.json.JSONArray
 import cn.hutool.json.JSONObject
 
-class MsgContentInfo(val value: String) : Message {
+class MsgContentInfo(var value: String) : Message {
 
     private val entities: ArrayList<MessageEntity> = ArrayList()
     override fun build(): JSONObject {
         val jsonObject = JSONObject()
         jsonObject.putByPath("content.text", this.value)
-        val emptyArray: ArrayList<String> = ArrayList()
+        val emptyArray = JSONArray()
         jsonObject.putByPath("content.entities", emptyArray)
         this.entities.forEach {
             run {
@@ -35,11 +36,25 @@ class MsgContentInfo(val value: String) : Message {
                 }
                 entityJson["offset"] = it.offset
                 entityJson["length"] = it.length
-                emptyArray.add(entityJson.toString())
+                emptyArray.add(entityJson)
             }
         }
         jsonObject.putByPath("content.entities", emptyArray)
         return jsonObject
+    }
+
+    fun appendMentionedMessage(uid: Int, type: MessageEntityType): MsgContentInfo {
+        val entity = MessageEntity()
+        entity.type = type
+        entity.value = uid.toString()
+        entity.offset = this.value.length
+        //似乎米哈游没有提供获取机器人ID的接口
+        val name =
+            "@" + if (type == MessageEntityType.MENTIONED_USER) HoyoBot.instance.getBot().getMember(uid).name else ""
+        entity.length = name.length
+        this.value += name
+        this.addEntity(entity)
+        return this
     }
 
     fun addEntity(entity: MessageEntity): MsgContentInfo {

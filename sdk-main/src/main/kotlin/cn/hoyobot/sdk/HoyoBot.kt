@@ -3,6 +3,7 @@ package cn.hoyobot.sdk
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
 import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo
+import cn.hoyobot.sdk.network.protocol.type.MessageEntityType
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hoyobot.sdk.scheduler.BotScheduler
 import cn.hoyobot.sdk.utils.Config
@@ -81,7 +82,6 @@ open class HoyoBot {
         this.isRunning = true
         this.getLogger()
             .info("Done! HoyoBot is running on " + port + ". (" + (System.currentTimeMillis() - this.runningTime) + "ms)")
-        this.botEntry.sendMessage(39868, MsgContentInfo("你好呀"), TextType.MESSAGE)
         this.tickProcessor()
         this.shutdown()
     }
@@ -89,6 +89,10 @@ open class HoyoBot {
     private fun shutdown() {
         isRunning = false
         exitProcess(0)
+    }
+
+    fun getBot(): BotEntry {
+        return this.botEntry
     }
 
     open fun tickProcessor() {
