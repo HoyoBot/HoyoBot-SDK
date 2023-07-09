@@ -1,6 +1,5 @@
 package cn.hoyobot.sdk.network
 
-import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hutool.http.HttpRequest
@@ -90,11 +89,9 @@ class BotEntry {
                 if (message is MsgContentInfo) {
                     val params = JSONObject()
                     params["msg_content"] = message.build().toJSONString(1)
-                    HoyoBot.instance.getLogger().info("发送\n${params["msg_content"]}")
                     params["room_id"] = room.toLong()
                     params["object_name"] = type.getType()
-                    val response = this.request(MihoyoAPI.API_MESSAGE, params, Method.POST)
-                    HoyoBot.instance.getLogger().info(JSONObject(response.body()).toJSONString(4))
+                    this.request(MihoyoAPI.API_MESSAGE, params, Method.POST)
                 }
             }
             else -> {}
