@@ -6,6 +6,7 @@ import cn.hoyobot.sdk.network.protocol.mihoyo.Message;
 import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo;
 import cn.hoyobot.sdk.network.protocol.type.TextType;
 import cn.hoyobot.sdk.plugin.Plugin;
+import cn.hoyobot.sdk.scheduler.Task;
 import cn.hoyobot.sdk.utils.Config;
 
 import java.io.File;
@@ -27,6 +28,18 @@ public class ExamplePlugin extends Plugin {
         //从配置文件获取值
         this.roomID = config.getInt("room_id");
         this.message = config.getString("message");
+
+        //建立一个延时执行任务,20为一秒
+        //scheduleDelayedRepeatingTask: 延时定时循环任务
+        //scheduleRepeatingTask: 定时循环任务
+        //scheduleDelayedTask: 延时任务
+        this.getBotProxy().getScheduler().scheduleDelayedTask(new Task() {
+            @Override
+            public void onRun(int i) {
+                Message senderMessage = new MsgContentInfo(message);
+                getBotProxy().getBot().sendMessage(roomID, senderMessage, TextType.MESSAGE);
+            }
+        }, 20);
 
         //注册一个监听器,监听SDK发来的事件
         this.getBotProxy().getEventManager().subscribe(ProxyBotStartEvent.class, this::onBotEnabled);
