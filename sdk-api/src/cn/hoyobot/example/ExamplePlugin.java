@@ -8,6 +8,8 @@ import cn.hoyobot.sdk.network.protocol.type.TextType;
 import cn.hoyobot.sdk.plugin.Plugin;
 import cn.hoyobot.sdk.utils.Config;
 
+import java.io.File;
+
 public class ExamplePlugin extends Plugin {
 
     public BotEntry botEntry;
@@ -21,7 +23,7 @@ public class ExamplePlugin extends Plugin {
 
         //为你的插件生成一个配置文件
         this.saveResource("config.yml");
-        Config config = new Config(this.getBotProxy().getPluginPath() + this.getDescription().getName() + "/config.yml", Config.YAML);
+        Config config = new Config(this.getBotProxy().getPluginPath() + File.separator + this.getDescription().getName() + "/config.yml", Config.YAML);
         //从配置文件获取值
         this.roomID = config.getInt("room_id");
         this.message = config.getString("message");
