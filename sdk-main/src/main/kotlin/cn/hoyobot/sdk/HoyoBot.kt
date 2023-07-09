@@ -1,5 +1,7 @@
 package cn.hoyobot.sdk
 
+import cn.hoyobot.sdk.event.EventManager
+import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
 import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo
@@ -32,6 +34,7 @@ open class HoyoBot {
     private val logger: Log = LogFactory.get("HoyoBot")
     private var isRunning = false
     private lateinit var botScheduler: BotScheduler
+    private lateinit var eventManager: EventManager
     private var botEntry: BotEntry = BotEntry()
     private lateinit var properties: Config
     private var runningTime by Delegates.notNull<Long>()
@@ -52,6 +55,7 @@ open class HoyoBot {
         }
 
         this.botScheduler = BotScheduler()
+        this.eventManager = EventManager(this)
         this.logger.info("Loading HoyoBot properties...")
         properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
             init {
@@ -73,6 +77,7 @@ open class HoyoBot {
         this.httpFilter = this.properties.getBoolean("http_filter", false)
         this.logger.info("Create Bot:\nID: ${botEntry.botID}\nSecret: ${botEntry.botSecret}\nCall_Back: ${this.getHttpCallBackPath()}")
         this.properties.save(true)
+        this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
     }
 
@@ -104,6 +109,10 @@ open class HoyoBot {
                 logger.error(e)
             }
         }
+    }
+
+    private fun getEventManager(): EventManager {
+        return this.eventManager
     }
 
     private fun tick() {
