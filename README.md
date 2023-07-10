@@ -2,6 +2,7 @@
 
 [![简体中文](https://img.shields.io/badge/简体中文-100%25-green?style=flat-square)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/README.md)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat-square)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/LICENSE)
+[![Maven](https://jitpack.io/v/HoyoBot/HoyoBot-SDK.svg)](https://jitpack.io/#HoyoBot/HoyoBot-SDK)
 
 [English](README.md) | [简体中文](README_CH.md)
 
@@ -10,7 +11,18 @@
 
 <div align="center">
 
+<img width="160" src="docs/hoyobot-logo.jpg" alt="logo"></br>
+
+----
+
 # HoyoSDK
+
+HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持的高效率机器人库
+
+这个项目的名字来源于
+<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《Mihoyo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
+<p>其含义是为米哈游旗下软件<a href = "https://www.miyoushe.com/">米游社</a>创造的项目<a href = "https://github.com/HoyoBot/HoyoBot-SDK">(<b>HoyoSDK</b>)</a></p>
+
 
 </div>
 
@@ -38,9 +50,10 @@
 
 * [Issues/Tickets](https://github.com/HoyoBot/HoyoBot-SDK/issues)
 
-###### Developers
+###### 开发相关
 
 * [License (GPLv3)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/LICENSE)
+* [说明文档 (Docs)]()
 
 ## 安装 & 运行
 
@@ -126,6 +139,21 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
     </dependency>
 </dependencies>
 ```
+
+## 协议支持
+
+<details>
+
+<summary>支持的协议列表</summary>
+
+**米游社回调事件**
+
+- 消息发送
+- 成员信息及列表获取
+- 大别野信息及列表获取
+- 踢除用户
+
+</details>
 
 ## 机器人事件说明
 
