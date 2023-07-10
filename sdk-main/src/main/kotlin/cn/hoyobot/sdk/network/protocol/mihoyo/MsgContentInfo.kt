@@ -50,10 +50,19 @@ class MsgContentInfo(var value: String) : Message {
         entity.offset = this.value.length
         //似乎米哈游没有提供获取机器人ID的接口
         val name =
-            "@" + if (type == MessageEntityType.MENTIONED_USER) HoyoBot.instance.getBot().getMember(uid).name else ""
+            "@" + when (type) {
+                MessageEntityType.MENTIONED_USER -> HoyoBot.instance.getBot().getMember(uid).name
+                MessageEntityType.MENTIONED_ALL -> "全体成员"
+                else -> ""
+            }
         entity.length = name.length
         this.value += name
         this.addEntity(entity)
+        return this
+    }
+
+    fun append(msg: String): MsgContentInfo {
+        this.value += msg
         return this
     }
 

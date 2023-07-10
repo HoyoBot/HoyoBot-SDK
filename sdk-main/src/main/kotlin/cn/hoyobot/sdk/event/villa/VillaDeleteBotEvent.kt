@@ -1,6 +1,7 @@
 package cn.hoyobot.sdk.event.villa
 
 import cn.hoyobot.sdk.event.types.VillaEvent
+import cn.hoyobot.sdk.network.protocol.type.ProtocolEventType
 
-class VillaDeleteBotEvent : VillaEvent() {
+class VillaDeleteBotEvent(type: ProtocolEventType) : VillaEvent(type) {
 }
