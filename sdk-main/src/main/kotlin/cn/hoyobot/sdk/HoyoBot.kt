@@ -4,6 +4,7 @@ import cn.hoyobot.sdk.command.*
 import cn.hoyobot.sdk.command.console.TerminalConsole
 import cn.hoyobot.sdk.event.EventManager
 import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent
+import cn.hoyobot.sdk.event.proxy.ProxyBotStopEvent
 import cn.hoyobot.sdk.logger.Logger
 import cn.hoyobot.sdk.network.BotEntry
 import cn.hoyobot.sdk.network.RaknetInterface
@@ -165,6 +166,7 @@ open class HoyoBot {
 
     fun shutdown() {
         this.logger.info("关闭HoyoBot中...")
+        this.getEventManager().callEvent(ProxyBotStopEvent(this))
         isRunning = false
         this.pluginManager.disableAllPlugins()
         exitProcess(0)

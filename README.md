@@ -119,4 +119,17 @@
 </dependencies>
 ```
 
+## 机器人事件说明
+
+HoyoBot将机器人发生的一切都处理为了事件,若你要开发其插件，只需要注册监听器，
+就可以让事件触发时执行你的插件代码
+
+你可以在 sdk-api 中查看样例代码
+
+### 事件列表
+
+- `ProxyBotStartEvent` - 机器人启动事件
+- `ProxyBotStopEvent` - 机器人关闭事件
+- `ProxyPluginEnableEvent` - 机器人插件加载事件
+
 ---------
