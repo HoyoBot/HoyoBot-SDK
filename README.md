@@ -60,6 +60,8 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 
 ## 安装 & 运行
 
+注意: 本框架仅支持 Java17 及以上版本的环境
+
 - 从Java CI: https://ci.lanink.cn/job/HoyoBot-SDK/
 - 下载最新版构建 `sdk-main-1.0.0-jar-with-dependencies.jar`
 - (跳转链接): [CI](https://ci.lanink.cn/job/HoyoBot-SDK/)
@@ -76,7 +78,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 
 ## 构建Jar文件
 
-#### 环境: Kotlin | Java (8|17)
+#### 环境: Kotlin | Java (17)
 
 - `git clone https://github.com/HoyoBot/HoyoBot-SDK.git`
 - `cd HoyoBot-SDK`
