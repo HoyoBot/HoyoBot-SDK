@@ -1,6 +1,7 @@
 package cn.hoyobot.sdk.command
 
 import cn.hoyobot.sdk.HoyoBot
+import cn.hoyobot.sdk.command.commands.HelpCommand
 import cn.hoyobot.sdk.command.commands.PluginCommand
 import cn.hoyobot.sdk.command.commands.VersionCommand
 
@@ -12,5 +13,6 @@ class DefaultCommandMap(proxy: HoyoBot, prefix: String) : SimpleCommandMap(proxy
     private fun registerDefaults() {
         this.registerCommand(PluginCommand())
         this.registerCommand(VersionCommand())
+        this.registerCommand(HelpCommand())
     }
 }

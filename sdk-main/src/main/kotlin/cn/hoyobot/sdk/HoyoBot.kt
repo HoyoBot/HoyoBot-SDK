@@ -111,7 +111,6 @@ open class HoyoBot {
             .info("完成! HoyoBot 正运行在 " + address + ":" + port + "上. (耗时:" + ((System.currentTimeMillis() - this.runningTime) / 1000).toDouble() + "秒)")
         this.console.consoleThread.start()
         this.tickProcessor()
-        this.shutdown()
     }
 
     open fun dispatchCommand(sender: CommandSender, message: String): Boolean {

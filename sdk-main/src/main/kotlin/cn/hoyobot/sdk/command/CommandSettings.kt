@@ -4,7 +4,7 @@ class CommandSettings private constructor(
     val usageMessage: String,
     val description: String,
     val aliases: Array<String>,
-    val isQuoteAware: Boolean = false
+    val isQuoteAware: Boolean = true
 ) {
 
     class Builder {
@@ -15,7 +15,7 @@ class CommandSettings private constructor(
             private set
         var aliases = emptyArray<String>()
             private set
-        var isQuoteAware = false
+        var isQuoteAware = true
             private set
 
         fun put(usageMessage: String, description: String, aliases: Array<String>): Builder {
