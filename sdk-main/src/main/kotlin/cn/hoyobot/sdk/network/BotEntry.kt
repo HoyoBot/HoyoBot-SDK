@@ -1,5 +1,6 @@
 package cn.hoyobot.sdk.network
 
+import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hutool.http.HttpRequest
@@ -32,6 +33,22 @@ class BotEntry {
         }
 
         return villa
+    }
+
+    fun getRoom(roomID: Int): Room {
+        val params = JSONObject()
+        params["room_id"] = roomID
+        val response = this.request(MihoyoAPI.API_ROOM, params, Method.GET)
+        val jsonObject = JSONObject(response.body())
+        val room = Room()
+        try {
+            room.roomID = jsonObject.getByPath("data.room.room_id").toString().toInt()
+            room.roomName = jsonObject.getByPath("data.room.room_name").toString()
+            room.groupID = jsonObject.getByPath("data.room.group_id").toString().toInt()
+            room.roomType = jsonObject.getByPath("data.room.room_type").toString()
+        } catch (_: Exception) {
+        }
+        return room
     }
 
     fun getMember(id: Int): Member {

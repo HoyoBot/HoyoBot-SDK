@@ -1,0 +1,5 @@
+package cn.hoyobot.sdk.network.protocol.type
+
+enum class RoomType {
+    BOT_PLATFORM_ROOM_TYPE_CHAT_ROOM, BOT_PLATFORM_ROOM_TYPE_POST_ROOM, BOT_PLATFORM_ROOM_TYPE_SCENE_ROOM, BOT_PLATFORM_ROOM_TYPE_INVALID
+}

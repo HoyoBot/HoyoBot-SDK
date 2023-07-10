@@ -84,6 +84,17 @@ class MsgContentInfo(var value: String) : Message {
         return this
     }
 
+    fun appendRoomLink(roomID: Int): MsgContentInfo {
+        val entity = MessageEntity()
+        entity.type = MessageEntityType.ROOM_LINK
+        entity.value = roomID.toString()
+        entity.offset = this.value.length
+        val name = "#" + HoyoBot.instance.getBot().getRoom(roomID).roomName
+        entity.length = name.length
+        this.addEntity(entity)
+        return this
+    }
+
     fun append(msg: String): MsgContentInfo {
         this.value += msg
         return this

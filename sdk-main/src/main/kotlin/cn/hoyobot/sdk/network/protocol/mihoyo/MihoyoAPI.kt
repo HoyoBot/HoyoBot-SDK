@@ -8,5 +8,6 @@ object MihoyoAPI {
     const val API_MEMBER_LIST = "$API/vila/api/bot/platform/getVillaMembers"
     const val API_MEMBER_KICK = "$API/vila/api/bot/platform/deleteVillaMember"
     const val API_MESSAGE = "$API/vila/api/bot/platform/sendMessage"
+    const val API_ROOM = "$API/vila/api/bot/platform/getRoom"
 
 }
