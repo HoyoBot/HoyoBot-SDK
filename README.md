@@ -98,6 +98,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta   |
 |  sdk-main  |  beta3  |
 |  sdk-main  |  beta4  |
+|  sdk-main  |  beta5  |
 
 ### Gradle:
 
@@ -136,7 +137,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
     <dependency>
         <groupId>com.github.HoyoBot.HoyoBot-SDK</groupId>
         <artifactId>ExamplePlugin</artifactId>
-        <version>beta3</version>
+        <version>beta5</version>
     </dependency>
 </dependencies>
 ```
