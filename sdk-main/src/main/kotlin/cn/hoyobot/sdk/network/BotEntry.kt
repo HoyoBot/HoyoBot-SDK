@@ -111,6 +111,15 @@ class BotEntry {
                     this.request(MihoyoAPI.API_MESSAGE, params, Method.POST)
                 }
             }
+            TextType.IMAGE -> {
+                if (message is ImageContentInfo) {
+                    val params = JSONObject()
+                    params["msg_content"] = message.build().toJSONString(1)
+                    params["room_id"] = room.toLong()
+                    params["object_name"] = type.getType()
+                    this.request(MihoyoAPI.API_MESSAGE, params, Method.POST)
+                }
+            }
             else -> {}
         }
     }
