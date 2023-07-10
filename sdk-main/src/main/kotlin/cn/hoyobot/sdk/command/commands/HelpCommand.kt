@@ -6,7 +6,7 @@ import cn.hoyobot.sdk.command.CommandSender
 import cn.hoyobot.sdk.command.CommandSettings
 import cn.hoyobot.sdk.command.ConsoleCommandSender
 
-class HelpCommand : Command("help", CommandSettings.builder().put("/help <命令>", "查看命令列表或帮助", arrayOf("")).build()) {
+class HelpCommand : Command("help", CommandSettings.builder().put("/help <命令>", "查看命令列表或帮助", arrayOf("?")).build()) {
     override fun onExecute(sender: CommandSender, alias: String, args: Array<String>): Boolean {
 
         if (sender !is ConsoleCommandSender) return true

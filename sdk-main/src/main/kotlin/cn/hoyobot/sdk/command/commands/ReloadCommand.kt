@@ -6,18 +6,23 @@ import cn.hoyobot.sdk.command.CommandSender
 import cn.hoyobot.sdk.command.CommandSettings
 import cn.hoyobot.sdk.command.ConsoleCommandSender
 
-class PluginCommand :
-
-    Command("plugins", CommandSettings.builder().put("/plugins", "查看机器人安装的插件列表", arrayOf("pl")).build()) {
+class ReloadCommand : Command("reload", CommandSettings.builder().put("/reload", "热重载机器人插件", arrayOf("")).build()) {
 
     override fun onExecute(sender: CommandSender, alias: String, args: Array<String>): Boolean {
+
         if (sender !is ConsoleCommandSender) return true
-        val builder = StringBuilder("机器人插件列表(${HoyoBot.instance.getPluginManager().getPluginMap().size}):").append("\n")
+
+        sender.sendMessage("插件热重载中...")
         HoyoBot.instance.getPluginManager().plugins.forEach {
-            builder.append(it.getDescription().name).append("(").append(it.getDescription().version).append(") ")
+            it.setEnabled(false)
+            it.onDisable()
+            it.onEnable()
+            it.setEnabled(true)
         }
-        sender.sendMessage(builder.toString().trim())
+        sender.sendMessage("插件热重载完成!")
+
         return true
     }
+
 
 }
