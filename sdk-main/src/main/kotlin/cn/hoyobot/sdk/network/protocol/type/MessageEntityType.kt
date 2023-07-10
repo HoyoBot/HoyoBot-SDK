@@ -9,4 +9,12 @@ enum class MessageEntityType(val value: String) {
         return this.value
     }
 
+    companion object {
+        @JvmStatic
+        fun getMessageEntityTypeFromStr(value: String): MessageEntityType {
+            values().forEach { if (it.getType() == value) return it }
+            return UNKNOWN
+        }
+    }
+
 }

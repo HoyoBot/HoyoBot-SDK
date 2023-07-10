@@ -3,6 +3,7 @@ package cn.hoyobot.sdk.event.villa
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.event.types.VillaEvent
 import cn.hoyobot.sdk.network.protocol.mihoyo.Member
+import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo
 import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
 import cn.hoyobot.sdk.network.protocol.type.ProtocolEventType
 import cn.hoyobot.sdk.network.protocol.type.TextType
@@ -15,8 +16,8 @@ class VillaSendMessageEvent(type: ProtocolEventType) : VillaEvent(type) {
     private var senderNickName = ""
     private var sendAt = 0
     private var roomID = 0
-    private var msgID = 0
-    private var botMsgID = 0
+    private var msgID = ""
+    private var botMsgID = ""
     private var villaID = 0
 
     //https://webstatic.mihoyo.com/vila/bot/doc/callback.html
@@ -30,13 +31,16 @@ class VillaSendMessageEvent(type: ProtocolEventType) : VillaEvent(type) {
         this.roomID = jsonObject.getInt("room_id")
         this.villaID = jsonObject.getInt("villa_id")
         this.senderNickName = jsonObject.getStr("nickname")
-        this.msgID = jsonObject.getInt("msg_uid")
-        if (jsonObject.containsKey("bot_msg_id"))
-            this.botMsgID = jsonObject.getInt("bot_msg_id")
+        this.msgID = jsonObject.getStr("msg_uid")
+        if (jsonObject.containsKey("bot_msg_id")) this.botMsgID = jsonObject.getStr("bot_msg_id")
     }
 
     fun getJsonMessage(): JSONObject {
         return JSONObject(this.content)
+    }
+
+    fun getMsgContentInfo(): MsgContentInfo {
+        return MsgContentInfo("").importFromJson(this.getJsonMessage())
     }
 
     fun getSendAt(): Int {
@@ -47,11 +51,11 @@ class VillaSendMessageEvent(type: ProtocolEventType) : VillaEvent(type) {
         return this.roomID
     }
 
-    fun getMsgID(): Int {
+    fun getMsgID(): String {
         return this.msgID
     }
 
-    fun getBotMsgID(): Int {
+    fun getBotMsgID(): String {
         return this.botMsgID
     }
 

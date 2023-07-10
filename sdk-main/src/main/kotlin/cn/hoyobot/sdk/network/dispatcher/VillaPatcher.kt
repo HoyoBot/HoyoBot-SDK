@@ -24,7 +24,6 @@ class VillaPatcher : ProxyActionInterface {
             return
         }
         try {
-
             val eventID = requestJson.getByPath("event.type").toString().toInt()
             val protocolType = ProtocolEventType.getTypeByID(eventID)
             val villaEvent: BotEvent = when (protocolType) {
@@ -39,7 +38,8 @@ class VillaPatcher : ProxyActionInterface {
             villaEvent.putString(requestJson.getByPath("event.extend_data.EventData.${protocolType.getEventName()}") as JSONObject)
             HoyoBot.instance.getEventManager().callEvent(villaEvent)
 
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            HoyoBot.instance.getLogger().error("处理事件的时候出现错误!", e)
         }
 
         val responseJson = JSONObject()

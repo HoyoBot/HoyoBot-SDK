@@ -43,18 +43,41 @@ class MsgContentInfo(var value: String) : Message {
         return jsonObject
     }
 
+    fun importFromJson(jsonObject: JSONObject): MsgContentInfo {
+        val entitiesArray = jsonObject.getByPath("content.entities") as JSONArray
+        entitiesArray.forEach {
+            run {
+                val entity = it as JSONObject
+                val msgEntity = MessageEntity()
+                msgEntity.offset = entity.getInt("offset")
+                msgEntity.length = entity.getInt("length")
+                msgEntity.type =
+                    MessageEntityType.getMessageEntityTypeFromStr(entity.getByPath("entity.type").toString())
+                msgEntity.value = when (msgEntity.type) {
+                    MessageEntityType.MENTIONED_USER -> entity.getByPath("entity.user_id").toString()
+                    MessageEntityType.MENTIONED_BOT -> entity.getByPath("entity.bot_id").toString()
+                    else -> {
+                        ""
+                    }
+                }
+                this.entities.add(msgEntity)
+            }
+        }
+        this.value = jsonObject.getByPath("content.text").toString()
+        return this
+    }
+
     fun appendMentionedMessage(uid: Int, type: MessageEntityType): MsgContentInfo {
         val entity = MessageEntity()
         entity.type = type
         entity.value = uid.toString()
         entity.offset = this.value.length
         //似乎米哈游没有提供获取机器人ID的接口
-        val name =
-            "@" + when (type) {
-                MessageEntityType.MENTIONED_USER -> HoyoBot.instance.getBot().getMember(uid).name
-                MessageEntityType.MENTIONED_ALL -> "全体成员"
-                else -> ""
-            }
+        val name = "@" + when (type) {
+            MessageEntityType.MENTIONED_USER -> HoyoBot.instance.getBot().getMember(uid).name
+            MessageEntityType.MENTIONED_ALL -> "全体成员"
+            else -> ""
+        }
         entity.length = name.length
         this.value += name
         this.addEntity(entity)
