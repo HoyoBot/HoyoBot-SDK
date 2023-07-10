@@ -30,7 +30,11 @@ class VillaMemberJoinEvent(type: ProtocolEventType) : VillaEvent(type) {
     }
 
     fun getVilla(): Villa {
-        return HoyoBot.instance.getBot().getVilla()
+        val oldID = HoyoBot.instance.getBot().villaID
+        HoyoBot.instance.getBot().villaID = this.villaID.toString()
+        val resultVilla = HoyoBot.instance.getBot().getVilla()
+        HoyoBot.instance.getBot().villaID = oldID
+        return resultVilla
     }
 
     fun getJoinAt(): Int {
