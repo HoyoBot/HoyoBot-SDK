@@ -15,6 +15,8 @@ import cn.hutool.log.Log
 import cn.hutool.log.LogFactory
 import lombok.Getter
 import java.io.File
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
@@ -54,13 +56,13 @@ open class HoyoBot {
         this.logger = Logger()
         this.runningTime = System.currentTimeMillis()
         this.logger.info("HoyoBot - ${this.version}")
-        this.logger.info("Find updates at: https://github.com/HoyoBot/HoyoBot-SDK")
+        this.logger.info("在开源仓库寻找更新: https://github.com/HoyoBot/HoyoBot-SDK")
 
         if (!File(pluginPath).exists()) {
             File(pluginPath).mkdirs()
         }
 
-        this.logger.info("Loading HoyoBot properties...")
+        this.logger.info("加载 HoyoBot properties 中...")
         properties = Config(this.path + "bot.properties", Config.PROPERTIES, object : ConfigSection() {
             init {
                 put("bot_id", "")
@@ -81,7 +83,7 @@ open class HoyoBot {
         this.discardOldLogs = this.properties.getString("discard-old-logs-days").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
-        this.logger.info("Create bot successfully!")
+        this.logger.info("HoyoBot已成功在米游社创建!")
 
         this.botScheduler = BotScheduler()
         this.eventManager = EventManager(this)
@@ -90,7 +92,7 @@ open class HoyoBot {
         this.raknetInterface = RaknetInterface(this)
         this.raknetInterface.start()
 
-        this.getLogger().info("Loading plugins...")
+        this.getLogger().info("加载插件中...")
         this.pluginManager = PluginManager(this)
         this.getPluginManager().enableAllPlugins()
 
@@ -103,10 +105,10 @@ open class HoyoBot {
     }
 
     private fun initProxy() {
-        this.getLogger().info("Totally load ${this.getPluginManager().getPluginMap().size} plugins")
+        this.getLogger().info("总共加载了 ${this.getPluginManager().getPluginMap().size} 个插件")
         this.isRunning = true
         this.getLogger()
-            .info("Done! HoyoBot is running on " + port + ". (" + (System.currentTimeMillis() - this.runningTime) + "ms)")
+            .info("完成! HoyoBot 正运行在 " + address + ":" + port + "上. (耗时:" + ((System.currentTimeMillis() - this.runningTime) / 1000).toDouble() + "秒)")
         this.console.consoleThread.start()
         this.tickProcessor()
         this.shutdown()
@@ -116,6 +118,10 @@ open class HoyoBot {
         if (message.trim { it <= ' ' }.isEmpty()) return false
         val args = message.split("\\s+".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         if (args.isEmpty()) return false
+        if (!this.commandMap.commands.containsKey(args[0].lowercase(Locale.getDefault()))) {
+            sender.sendMessage("未知的机器人命令${args[0]},没有任何对象注册了这个命令")
+            return false
+        }
         val command = getCommandMap().getCommand(args[0])
         var shiftedArgs = arrayOf("")
         if (command.settings.isQuoteAware) {
@@ -159,6 +165,7 @@ open class HoyoBot {
     }
 
     fun shutdown() {
+        this.logger.info("关闭HoyoBot中...")
         isRunning = false
         this.pluginManager.disableAllPlugins()
         exitProcess(0)

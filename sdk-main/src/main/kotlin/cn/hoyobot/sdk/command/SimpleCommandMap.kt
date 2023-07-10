@@ -62,13 +62,17 @@ open class SimpleCommandMap(proxy: HoyoBot, prefix: String) : CommandMap {
     }
 
     override fun handleMessage(sender: CommandSender, message: String): Boolean {
-        return !message.trim { it <= ' ' }.isEmpty() && message.startsWith(commandPrefix)
+        return message.trim { it <= ' ' }.isNotEmpty() && message.startsWith(commandPrefix)
     }
 
     override fun handleCommand(sender: CommandSender, commandName: String, args: Array<String>): Boolean {
+        if (!this.commands.containsKey(commandName.lowercase(Locale.getDefault()))) {
+            sender.sendMessage("未知的机器人命令$commandName,没有任何对象注册了这个命令")
+            return false
+        }
         val command = commands[commandName.lowercase(Locale.getDefault())]
         if (command != null) {
-            execute(command, sender, null, args)
+            execute(command, sender, "", args)
             return true
         }
         val aliasCommand = aliasesMap[commandName.lowercase(Locale.getDefault())]
@@ -82,9 +86,9 @@ open class SimpleCommandMap(proxy: HoyoBot, prefix: String) : CommandMap {
         return false
     }
 
-    private fun execute(command: Command, sender: CommandSender, alias: String?, args: Array<String>) {
+    private fun execute(command: Command, sender: CommandSender, alias: String, args: Array<String>) {
         try {
-            val success = command.onExecute(sender, alias!!, args)
+            val success = command.onExecute(sender, alias, args)
             if (!success) {
                 sender.sendMessage("该命令正确的用法: " + command.usageMessage)
             }

@@ -11,17 +11,24 @@ class CommandSettings private constructor(
 
         var usageMessage = ""
             private set
-        var description: String? = null
+        var description: String = ""
             private set
         var aliases = emptyArray<String>()
             private set
         var isQuoteAware = false
             private set
 
+        fun put(usageMessage: String, description: String, aliases: Array<String>): Builder {
+            this.usageMessage = usageMessage
+            this.description = description
+            this.aliases = aliases
+            return this
+        }
+
         fun build(): CommandSettings {
             return CommandSettings(
                 usageMessage,
-                (if (description == null) usageMessage else description)!!,
+                description,
                 aliases,
                 isQuoteAware
             )

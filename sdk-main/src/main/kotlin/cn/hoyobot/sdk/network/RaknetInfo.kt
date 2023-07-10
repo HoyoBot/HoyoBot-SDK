@@ -16,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 object RaknetInfo {
 
+    const val PROTOCOL_VERSION = "MIHOYO_SDK_1.0"
     const val DEFAULT_CHARSET = "utf-8"
     const val MAPPING_ALL = "/"
     const val MAPPING_ERROR = "/_error"
