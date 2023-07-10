@@ -55,6 +55,9 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 * [License (GPLv3)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/LICENSE)
 * [说明文档 (Docs)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/docs/README.md)
 
+###### 官方插件
+* [hoyo-sdk-mollyai](https://github.com/HoyoBot/hoyo-sdk-mollyai)
+
 ## 安装 & 运行
 
 - 从Java CI: https://ci.lanink.cn/job/HoyoBot-SDK/
