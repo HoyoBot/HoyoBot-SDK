@@ -11,7 +11,7 @@
 
 <div align="center">
 
-<img width="160" src="docs/hoyobot-logo.jpg" alt="logo"></br>
+<img width="160" src="docs/hoyobot-logo.png" alt="logo"></br>
 
 ----
 
@@ -53,7 +53,7 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 ###### 开发相关
 
 * [License (GPLv3)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/LICENSE)
-* [说明文档 (Docs)]()
+* [说明文档 (Docs)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/docs/README.md)
 
 ## 安装 & 运行
 
