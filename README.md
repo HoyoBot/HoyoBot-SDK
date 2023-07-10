@@ -97,6 +97,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |:----------:|:-------:|
 |  sdk-main  |  beta   |
 |  sdk-main  |  beta3  |
+|  sdk-main  |  beta4  |
 
 ### Gradle:
 
