@@ -43,6 +43,10 @@ abstract class Plugin {
 
     fun onDisable() {}
 
+    fun getDataPath(): String {
+        return this.getBotProxy().getPluginPath() + File.separator + this.getDescription().name.lowercase(Locale.ROOT)
+    }
+
     fun getResourceFile(filename: String): InputStream? {
         try {
             val pluginJar = JarFile(pluginFile)
@@ -61,8 +65,7 @@ abstract class Plugin {
 
     fun saveResource(filename: String, outputName: String, replace: Boolean): Boolean {
         Preconditions.checkArgument(
-            filename.trim { it <= ' ' }.isNotEmpty(),
-            "Filename can not be null!"
+            filename.trim { it <= ' ' }.isNotEmpty(), "Filename can not be null!"
         )
         val file = File(dataFolder, outputName)
         if (file.exists() && !replace) {
