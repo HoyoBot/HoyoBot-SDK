@@ -75,6 +75,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 - `version` - 查看机器人及HoyoSDK-Protocol协议版本
 - `help` - 查看命令帮助
 - `plugins` - 列出当前机器人安装的插件
+- `reload` - 热重载机器人插件
 
 ## 构建Jar文件
 
@@ -104,6 +105,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta3  |
 |  sdk-main  |  beta4  |
 |  sdk-main  |  beta5  |
+|  sdk-main  |  beta6  |
 
 ### Gradle:
 
