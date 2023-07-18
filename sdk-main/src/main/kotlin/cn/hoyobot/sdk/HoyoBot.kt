@@ -12,6 +12,7 @@ import cn.hoyobot.sdk.plugin.PluginManager
 import cn.hoyobot.sdk.scheduler.BotScheduler
 import cn.hoyobot.sdk.utils.Config
 import cn.hoyobot.sdk.utils.ConfigSection
+import cn.hoyobot.sdk.utils.Utils
 import cn.hutool.log.Log
 import cn.hutool.log.LogFactory
 import lombok.Getter
@@ -79,7 +80,7 @@ open class HoyoBot {
         })
         this.botEntry.botID = this.properties.getString("bot_id")
         this.botEntry.botSecret = this.properties.getString("bot_secret")
-        this.botEntry.botKey = this.properties.getString("bot_key");
+        this.botEntry.botKey = this.properties.getString("bot_key")
         this.botEntry.villaID = this.properties.getString("villa-id")
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
@@ -102,6 +103,11 @@ open class HoyoBot {
         this.commandMap = DefaultCommandMap(this, SimpleCommandMap.DEFAULT_PREFIX)
         this.console = TerminalConsole(this)
         this.consoleSender = ConsoleCommandSender(this)
+
+        this.getBot().botSecret = if (this.getBot().botKey != "") Utils.toRSASecret() else {
+            this.getLogger().warn("你没有填写bot_key以开启加密传输,这可能会导致安全问题!")
+            this.getBot().botSecret
+        }
 
         this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
