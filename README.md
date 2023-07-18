@@ -42,6 +42,10 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 
 ## 相关链接
 
+###### 开发者文档
+
+* [HoyoBot-SDK 官方文档](https://sdk.catrainbow.me)
+
 ###### 下载
 
 * [Jenkins (实时构建)](https://ci.lanink.cn/job/HoyoBot-SDK/)
