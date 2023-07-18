@@ -68,6 +68,7 @@ open class HoyoBot {
             init {
                 put("bot_id", "")
                 put("bot_secret", "")
+                put("bot_key", "")
                 put("server-ip", "0:0:0:0")
                 put("port", 80)
                 put("villa-id", "0")
@@ -78,6 +79,7 @@ open class HoyoBot {
         })
         this.botEntry.botID = this.properties.getString("bot_id")
         this.botEntry.botSecret = this.properties.getString("bot_secret")
+        this.botEntry.botKey = this.properties.getString("bot_key");
         this.botEntry.villaID = this.properties.getString("villa-id")
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()

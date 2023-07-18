@@ -1,6 +1,5 @@
 package cn.hoyobot.sdk.network
 
-import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hutool.http.HttpRequest
@@ -15,6 +14,7 @@ class BotEntry {
 
     lateinit var botID: String
     lateinit var botSecret: String
+    lateinit var botKey: String
     lateinit var villaID: String
 
     fun getVilla(): Villa {
@@ -124,6 +124,14 @@ class BotEntry {
         }
     }
 
+    fun transferImage(originalLink: String): String {
+        val params = JSONObject()
+        params["url"] = originalLink;
+        val response = this.request(MihoyoAPI.API_TRANSFER_IMAGE, params, Method.POST)
+        val resultJson = JSONObject(response.body())
+        return resultJson.getByPath("data.new_url").toString()
+    }
+
     private fun request(api: String): HttpResponse {
         return this.request(api, JSONObject(), Method.GET)
     }
@@ -136,6 +144,7 @@ class BotEntry {
             map["x-rpc-bot_id"] = this.botID
             map["x-rpc-bot_secret"] = this.botSecret
             map["x-rpc-bot_villa_id"] = this.villaID
+            map["x-rpc-bot_sign"] = this.botKey
             request = request.addHeaders(map)
             request.form(params)
             request.method(method)
@@ -146,6 +155,7 @@ class BotEntry {
             map["x-rpc-bot_id"] = this.botID
             map["x-rpc-bot_secret"] = this.botSecret
             map["x-rpc-bot_villa_id"] = this.villaID
+            map["x-rpc-bot_sign"] = this.botKey
             return HttpRequest.post(api).addHeaders(map).body(params.toString()).timeout(5 * 60 * 1000).execute()
         }
     }
