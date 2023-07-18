@@ -95,6 +95,16 @@ class MsgContentInfo(var value: String) : Message {
         return this
     }
 
+    fun appendLink(url: String): MsgContentInfo {
+        val entity = MessageEntity()
+        entity.type = MessageEntityType.LINK
+        entity.value = url
+        entity.offset = this.value.length
+        entity.length = url.length
+        this.addEntity(entity)
+        return this
+    }
+
     fun append(msg: String): MsgContentInfo {
         this.value += msg
         return this
