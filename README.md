@@ -110,6 +110,8 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta4  |
 |  sdk-main  |  beta5  |
 |  sdk-main  |  beta6  |
+|  sdk-main  |  beta7  |
+|  sdk-main  |  beta8  |
 
 ### Gradle:
 
@@ -166,6 +168,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 - 成员信息及列表获取
 - 大别野信息及列表获取
 - 踢除用户
+- 消息回复
 
 </details>
 
