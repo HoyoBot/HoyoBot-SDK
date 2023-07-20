@@ -1,8 +1,12 @@
 package cn.hoyobot.sdk.utils
 
+import cn.hoyobot.sdk.HoyoBot
 import java.io.*
 import java.nio.charset.StandardCharsets
 import java.util.*
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
+import javax.xml.bind.DatatypeConverter
 import kotlin.math.roundToInt
 
 object Utils {
@@ -150,6 +154,14 @@ object Utils {
             i += 2
         }
         return out
+    }
+
+    fun toRSASecret(): String {
+        val sighKey = SecretKeySpec(HoyoBot.instance.getBot().botKey.toByteArray(Charsets.UTF_8), "HmacSHA256")
+        val mac = Mac.getInstance("HmacSHA256")
+        mac.init(sighKey)
+        val raw = mac.doFinal(HoyoBot.instance.getBot().botSecret.toByteArray(Charsets.UTF_8))
+        return DatatypeConverter.printHexBinary(raw).lowercase(Locale.getDefault())
     }
 
     private fun hexToBin(ch: Char): Int {
