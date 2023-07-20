@@ -330,8 +330,8 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
      * @param key - key (inside) current section
      * @return
      */
-    private fun getList(key: String): List<*> {
-        return this.getList(key, null)
+    private fun getList(key: String): List<String> {
+        return this.getList(key, defaultList = kotlin.collections.ArrayList())
     }
 
     /**
@@ -341,8 +341,8 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
      * @param defaultList - default value that will returned if section element is not exists
      * @return
      */
-    fun getList(key: String, defaultList: List<*>?): List<*> {
-        return this[key, defaultList!!]
+    fun getList(key: String, defaultList: List<String>): List<String> {
+        return this[key, defaultList]
     }
 
     /**
@@ -366,9 +366,7 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val value = this.getList(key)
         val result: MutableList<String> = ArrayList()
         for (o in value) {
-            if (o is String || o is Number || o is Boolean || o is Char) {
-                result.add(o.toString())
-            }
+            result.add(o)
         }
         return result
     }
@@ -384,21 +382,12 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Int> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Int -> {
-                    result.add(`object`)
-                }
-                is String -> {
+                else -> {
                     try {
                         result.add(Integer.valueOf(`object` as String?))
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code)
-                }
-                is Number -> {
-                    result.add(`object`.toInt())
                 }
             }
         }
@@ -415,14 +404,10 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val list = getList(key)
         val result: MutableList<Boolean> = ArrayList()
         for (`object` in list) {
-            if (`object` is Boolean) {
-                result.add(`object`)
-            } else if (`object` is String) {
-                if (java.lang.Boolean.TRUE.toString() == `object`) {
-                    result.add(true)
-                } else if (java.lang.Boolean.FALSE.toString() == `object`) {
-                    result.add(false)
-                }
+            if (java.lang.Boolean.TRUE.toString() == `object`) {
+                result.add(true)
+            } else if (java.lang.Boolean.FALSE.toString() == `object`) {
+                result.add(false)
             }
         }
         return result
@@ -439,21 +424,12 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Double> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Double -> {
-                    result.add(`object`)
-                }
-                is String -> {
+                else -> {
                     try {
                         result.add(java.lang.Double.valueOf(`object` as String?))
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code.toDouble())
-                }
-                is Number -> {
-                    result.add(`object`.toDouble())
                 }
             }
         }
@@ -471,21 +447,12 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Float> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Float -> {
-                    result.add(`object`)
-                }
-                is String -> {
+                else -> {
                     try {
                         result.add(java.lang.Float.valueOf(`object` as String?))
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code.toFloat())
-                }
-                is Number -> {
-                    result.add(`object`.toFloat())
                 }
             }
         }
@@ -503,21 +470,12 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Long> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Long -> {
-                    result.add(`object`)
-                }
-                is String -> {
+                else -> {
                     try {
                         result.add(java.lang.Long.valueOf(`object` as String?))
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code.toLong())
-                }
-                is Number -> {
-                    result.add(`object`.toLong())
                 }
             }
         }
@@ -535,21 +493,13 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Byte> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Byte -> {
-                    result.add(`object`)
-                }
-                is String -> {
+
+                else -> {
                     try {
                         result.add(java.lang.Byte.valueOf(`object` as String?))
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code.toByte())
-                }
-                is Number -> {
-                    result.add(`object`.toByte())
                 }
             }
         }
@@ -566,14 +516,8 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val list = getList(key)
         val result: MutableList<Char> = ArrayList()
         for (`object` in list) {
-            if (`object` is Char) {
-                result.add(`object`)
-            } else if (`object` is String) {
-                if (`object`.length == 1) {
-                    result.add(`object`[0])
-                }
-            } else if (`object` is Number) {
-                result.add(`object`.toInt().toChar())
+            if (`object`.length == 1) {
+                result.add(`object`[0])
             }
         }
         return result
@@ -590,21 +534,12 @@ open class ConfigSection() : LinkedHashMap<String, Any>() {
         val result: MutableList<Short> = ArrayList()
         for (`object` in list) {
             when (`object`) {
-                is Short -> {
-                    result.add(`object`)
-                }
-                is String -> {
+                else -> {
                     try {
                         result.add(`object`.toShort())
                     } catch (ex: Exception) {
                         //ignore
                     }
-                }
-                is Char -> {
-                    result.add(`object`.toChar().code.toShort())
-                }
-                is Number -> {
-                    result.add(`object`.toShort())
                 }
             }
         }

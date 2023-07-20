@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import kotlin.collections.ArrayList
 
 
 class Config {
@@ -266,12 +267,12 @@ class Config {
         return config.isBoolean(key)
     }
 
-    fun getList(key: String): List<*> {
-        return this.getList(key, null)
+    fun getList(key: String): List<String> {
+        return this.getList(key, ArrayList())
     }
 
-    fun getList(key: String, defaultList: List<*>?): List<*> {
-        return if (isCorrect) config.getList(key, defaultList) else defaultList!!
+    fun getList(key: String, defaultList: List<String>): List<String> {
+        return if (isCorrect) config.getList(key, defaultList) else defaultList
     }
 
     fun isList(key: String): Boolean {
