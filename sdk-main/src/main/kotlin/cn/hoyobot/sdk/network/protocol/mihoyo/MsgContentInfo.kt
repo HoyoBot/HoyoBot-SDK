@@ -8,6 +8,7 @@ import cn.hutool.json.JSONObject
 class MsgContentInfo(var value: String) : Message {
 
     private val entities: ArrayList<MessageEntity> = ArrayList()
+    private val quotedParent = QuoteInfo()
     override fun build(): JSONObject {
         val jsonObject = JSONObject()
         jsonObject.putByPath("content.text", this.value)
@@ -40,6 +41,12 @@ class MsgContentInfo(var value: String) : Message {
             }
         }
         jsonObject.putByPath("content.entities", emptyArray)
+        if (this.quotedParent.enable) {
+            jsonObject.putByPath("quote.original_message_id", this.quotedParent.originalMessageID)
+            jsonObject.putByPath("quote.original_message_send_time", this.quotedParent.originalMessageSendAt)
+            jsonObject.putByPath("quote.quoted_message_id", this.quotedParent.quotedMessageID)
+            jsonObject.putByPath("quote.quoted_message_send_time", this.quotedParent.quotedMessageSendAt)
+        }
         return jsonObject
     }
 
@@ -108,6 +115,14 @@ class MsgContentInfo(var value: String) : Message {
     fun append(msg: String): MsgContentInfo {
         this.value += msg
         return this
+    }
+
+    fun setQuotedParent(id: String, time: Int) {
+        this.quotedParent.enable = true
+        this.quotedParent.quotedMessageID = id
+        this.quotedParent.originalMessageID = id
+        this.quotedParent.quotedMessageSendAt = time
+        this.quotedParent.originalMessageSendAt = time
     }
 
     fun addEntity(entity: MessageEntity): MsgContentInfo {
