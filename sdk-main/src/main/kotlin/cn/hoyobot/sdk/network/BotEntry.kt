@@ -16,6 +16,7 @@ class BotEntry {
     lateinit var botSecret: String
     lateinit var botKey: String
     lateinit var villaID: String
+    var debug = false
 
     fun getVilla(): Villa {
         val response = this.request(MihoyoAPI.API_VILLA)

@@ -270,6 +270,8 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
         headers.forEach { (key, value) -> sb.append("    ").append(key).append(": ").append(value).append("\r\n") }
         sb.append("params: \r\n")
         params.forEach { (key, value) -> sb.append("    ").append(key).append(": ").append(value).append("\r\n") }
+        sb.append("jsonData: \r\n ")
+        sb.append(this.jsonData.toJSONString(4))
         return sb.toString()
     }
 

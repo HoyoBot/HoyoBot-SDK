@@ -21,6 +21,7 @@ class VillaPatcher : ProxyActionInterface {
     override fun doAction(request: ProxyRequest, response: ProxyResponse) {
 
         //HoyoBot.instance.getLogger().debug("Villa: $request")
+        if (HoyoBot.instance.getBot().debug) HoyoBot.instance.getLogger().debug(request.toString())
         val requestJson = request.jsonData
         //处理来自米哈游的请求
         if (!requestJson.containsKey("event")) {
@@ -70,10 +71,8 @@ class VillaPatcher : ProxyActionInterface {
     }
 
     private fun verifyValidity(sign: String, body: String): Boolean {
-        val pubKey = HoyoBot.instance.getBot().botKey
-            .replace("-----BEGIN PUBLIC KEY-----", "")
-            .replace("-----END PUBLIC KEY-----", "")
-            .replace("\r?\n|\r".toRegex(), "")
+        val pubKey = HoyoBot.instance.getBot().botKey.replace("-----BEGIN PUBLIC KEY-----", "")
+            .replace("-----END PUBLIC KEY-----", "").replace("\r?\n|\r".toRegex(), "")
         val signArg = Base64.getDecoder().decode(sign)
         val encodedBody = URLEncoder.encode(body, "UTF-8")
         val encodedSecret = URLEncoder.encode(HoyoBot.instance.getBot().botSecret, "UTF-8")
