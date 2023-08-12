@@ -20,7 +20,7 @@
 HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持的高效率机器人库
 
 这个项目的名字来源于
-<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《Mihoyo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
+<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《miHoYo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
 <p>其含义是为米哈游旗下软件<a href = "https://www.miyoushe.com/">米游社</a>创造的项目<a href = "https://github.com/HoyoBot/HoyoBot-SDK">(<b>HoyoSDK</b>)</a></p>
 
 
@@ -35,8 +35,8 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 
 ## 特性
 
-- 基于Netty|高性能|易开发
-- 开源的|跨平台|快速开发插件
+- 基于Netty | 高性能| 易开发
+- 开源的 |跨平台 | 快速开发插件
 
 ---------
 
@@ -80,6 +80,10 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 - `help` - 查看命令帮助
 - `plugins` - 列出当前机器人安装的插件
 - `reload` - 热重载机器人插件
+- `getvilla` - 获取大别野信息
+- `getmember` - 获取用户信息
+- `getroom` - 获取房间信息
+- `send` - 发送自定义消息
 
 ## 构建Jar文件
 
@@ -112,6 +116,8 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta6  |
 |  sdk-main  |  beta7  |
 |  sdk-main  |  beta8  |
+|  sdk-main  |  beta9  |
+|  sdk-main  |  beta10 |
 
 ### Gradle:
 
@@ -165,10 +171,13 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 
 - 消息发送
 - 图片发送
+- 帖子发送
 - 成员信息及列表获取
 - 大别野信息及列表获取
 - 踢除用户
 - 消息回复
+- 消息置顶
+- 消息撤回
 
 </details>
 
