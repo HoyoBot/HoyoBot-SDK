@@ -1,0 +1,5 @@
+package cn.hoyobot.sdk.network.protocol.type
+
+enum class RoomNotifyType {
+    BOT_PLATFORM_DEFAULT_NOTIFY_TYPE_NOTIFY, BOT_PLATFORM_DEFAULT_NOTIFY_TYPE_IGNORE, BOT_PLATFORM_DEFAULT_NOTIFY_TYPE_INVALID
+}

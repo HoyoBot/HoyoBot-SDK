@@ -14,5 +14,9 @@ class DefaultCommandMap(proxy: HoyoBot, prefix: String) : SimpleCommandMap(proxy
         this.registerCommand(HelpCommand())
         this.registerCommand(ReloadCommand())
         this.registerCommand(DebugCommand())
+        this.registerCommand(GetMemberCommand())
+        this.registerCommand(GetRoomCommand())
+        this.registerCommand(GetVillaCommand())
+        this.registerCommand(SendCommand())
     }
 }
