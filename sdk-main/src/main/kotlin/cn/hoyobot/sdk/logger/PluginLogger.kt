@@ -4,7 +4,6 @@ import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.plugin.Plugin
 
 class PluginLogger(val plugin: Plugin) : Logger() {
-
     fun pluginInfo(message: String) {
         HoyoBot.instance.getLogger().info("[${this.plugin.name}] $message")
     }

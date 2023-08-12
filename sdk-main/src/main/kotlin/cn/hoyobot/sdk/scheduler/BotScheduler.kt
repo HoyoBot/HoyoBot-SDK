@@ -22,7 +22,7 @@ class BotScheduler {
         currentTaskId = AtomicInteger()
         queue = PriorityQueue(
             11
-        ) { left: TaskHandler, right: TaskHandler -> left!!.nextRunTick - right!!.nextRunTick }
+        ) { left: TaskHandler, right: TaskHandler -> left.nextRunTick - right.nextRunTick }
         taskMap = ConcurrentHashMap()
         asyncPool = AsyncPool(HoyoBot.instance, WORKERS)
     }
@@ -147,7 +147,7 @@ class BotScheduler {
     }
 
     private fun addTask(task: Task, delay: Int, period: Int, asynchronous: Boolean): TaskHandler? {
-        return (if (task is PluginTask<*>) task.owner else null)?.let {
+        return (if (task is PluginTask<*>) task.owner else null).let {
             addTask(
                 it,
                 { task.onRun(currentTick + delay) }, delay, period, asynchronous

@@ -1,6 +1,7 @@
 package cn.hoyobot.example;
 
 import cn.hoyobot.sdk.event.proxy.ProxyBotStartEvent;
+import cn.hoyobot.sdk.event.proxy.ProxyBotStopEvent;
 import cn.hoyobot.sdk.network.BotEntry;
 import cn.hoyobot.sdk.network.protocol.mihoyo.Message;
 import cn.hoyobot.sdk.network.protocol.mihoyo.MsgContentInfo;
@@ -16,9 +17,9 @@ public class ExamplePlugin extends Plugin {
     public BotEntry botEntry;
     private int roomID;
     private String message;
-
     @Override
     public void onEnable() {
+
         //获取SDK中的Bot
         this.botEntry = this.getBotProxy().getBot();
 
@@ -38,6 +39,7 @@ public class ExamplePlugin extends Plugin {
             public void onRun(int i) {
                 Message senderMessage = new MsgContentInfo(message);
                 getBotProxy().getBot().sendMessage(roomID, senderMessage, TextType.MESSAGE);
+                getLogger().info(message);
             }
         }, 20 * 5);
 

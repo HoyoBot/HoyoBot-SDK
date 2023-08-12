@@ -89,6 +89,8 @@ open class HoyoBot {
         this.httpFilter = this.properties.getBoolean("http_filter", false)
         this.logger.info("HoyoBot已成功在米游社创建!")
 
+        this.isRunning = true
+
         this.botScheduler = BotScheduler()
         this.eventManager = EventManager(this)
         this.properties.save(true)
@@ -115,7 +117,6 @@ open class HoyoBot {
 
     private fun initProxy() {
         this.getLogger().info("总共加载了 ${this.getPluginManager().getPluginMap().size} 个插件")
-        this.isRunning = true
         this.getLogger()
             .info("完成! HoyoBot 正运行在 " + address + ":" + port + "上. (耗时:" + ((System.currentTimeMillis() - this.runningTime) / 1000).toDouble() + "秒)")
         this.console.consoleThread.start()
