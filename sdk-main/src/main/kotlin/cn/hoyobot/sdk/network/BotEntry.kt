@@ -148,6 +148,17 @@ class BotEntry {
         this.setPinMessage(event.getMsgID(), pin, event.getRoomID(), event.getSendAt())
     }
 
+    fun recallMessage(messageID: String, roomID: Int, sendAt: Int) {
+        val params = JSONObject()
+        params["msg_uid"] = messageID
+        params["room_id"] = roomID
+        params["msg_time"] = sendAt
+        this.request(MihoyoAPI.API_RECALL_MESSAGE, params, Method.GET)
+    }
+
+    fun recallMessage(event: VillaSendMessageEvent) {
+        this.recallMessage(event.getMsgID(), event.getRoomID(), event.getSendAt())
+    }
     fun transferImage(originalLink: String): String {
         val params = JSONObject()
         params["url"] = originalLink;
