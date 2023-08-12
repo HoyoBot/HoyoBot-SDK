@@ -10,5 +10,6 @@ object MihoyoAPI {
     const val API_MESSAGE = "$API/vila/api/bot/platform/sendMessage"
     const val API_ROOM = "$API/vila/api/bot/platform/getRoom"
     const val API_TRANSFER_IMAGE = "$API/vila/api/bot/platform/transferImage"
+    const val API_PIN_MESSAGE = "$API/vila/api/bot/platform/pinMessage"
 
 }

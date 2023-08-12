@@ -1,5 +1,6 @@
 package cn.hoyobot.sdk.network
 
+import cn.hoyobot.sdk.event.villa.VillaSendMessageEvent
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
 import cn.hutool.http.HttpRequest
@@ -132,6 +133,19 @@ class BotEntry {
             }
             else -> {}
         }
+    }
+
+    fun setPinMessage(messageID: String, pin: Boolean, roomID: Int, sendAt: Int) {
+        val params = JSONObject()
+        params["msg_uid"] = messageID
+        params["is_cancel"] = pin
+        params["room_id"] = roomID
+        params["send_at"] = sendAt
+        this.request(MihoyoAPI.API_PIN_MESSAGE, params, Method.POST)
+    }
+
+    fun setPinMessage(event: VillaSendMessageEvent, pin: Boolean) {
+        this.setPinMessage(event.getMsgID(), pin, event.getRoomID(), event.getSendAt())
     }
 
     fun transferImage(originalLink: String): String {
