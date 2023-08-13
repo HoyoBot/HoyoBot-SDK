@@ -197,3 +197,5 @@ HoyoBot将机器人发生的一切都处理为了事件,若你要开发其插件
 - `VillaSendMessageEvent` - 频道成员聊天事件
 
 ---------
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HoyoBot/HoyoBot-SDK&type=Date)](https://star-history.com/#HoyoBot/HoyoBot-SDK&Date)
