@@ -35,8 +35,8 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 
 ## 特性
 
-- 基于Netty | 高性能| 易开发
-- 开源的 |跨平台 | 快速开发插件
+- 基于Netty | 高性能 | 易开发
+- 开源的 | 跨平台 | 快速开发插件
 
 ---------
 
@@ -45,6 +45,7 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 ###### 开发者文档
 
 * [HoyoBot-SDK 官方文档](https://sdk.catrainbow.me)
+* [米哈游官方文档](https://webstatic.mihoyo.com/vila/bot/doc/)
 
 ###### 下载
 
