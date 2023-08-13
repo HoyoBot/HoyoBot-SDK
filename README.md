@@ -20,7 +20,7 @@
 HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持的高效率机器人库
 
 这个项目的名字来源于
-<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《miHoYo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
+<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《miHoYo》</a>的后两部分(mi <b>HoYo</b>)</p>
 <p>其含义是为米哈游旗下软件<a href = "https://www.miyoushe.com/">米游社</a>创造的项目<a href = "https://github.com/HoyoBot/HoyoBot-SDK">(<b>HoyoSDK</b>)</a></p>
 
 
