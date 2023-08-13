@@ -9,7 +9,9 @@
 
 <div align="center">
 
-<img width="160" src="https://socialify.git.ci/HoyoBot/HoyoBot-SDK/image?description=1&descriptionEditable=%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%B1%B3%E6%B8%B8%E7%A4%BE%E5%A4%A7%E5%88%AB%E9%87%8E%E5%8D%8F%E8%AE%AE%E6%94%AF%E6%8C%81%E9%AB%98%E6%95%88%E7%8E%87%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%BA%93&font=Jost&forks=1&issues=1&language=1&logo=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F138961612%3Fs%3D400%26u%3Dd484bee5b3297f446682d6ec90c6e8d07fc86759%26v%3D4&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Light" alt="logo"></br>
+![HoyoBot-SDK](https://socialify.git.ci/HoyoBot/HoyoBot-SDK/image?description=1&descriptionEditable=%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%B1%B3%E6%B8%B8%E7%A4%BE%E5%A4%A7%E5%88%AB%E9%87%8E%E5%8D%8F%E8%AE%AE%E6%94%AF%E6%8C%81%E9%AB%98%E6%95%88%E7%8E%87%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%BA%93&font=Jost&forks=1&issues=1&language=1&logo=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F138961612%3Fs%3D400%26u%3Dd484bee5b3297f446682d6ec90c6e8d07fc86759%26v%3D4&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Light)
+
+</br>
 
 ----
 
