@@ -4,14 +4,14 @@
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg?style=flat-square)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/LICENSE)
 [![Maven](https://jitpack.io/v/HoyoBot/HoyoBot-SDK.svg)](https://jitpack.io/#HoyoBot/HoyoBot-SDK)
 
-[English](README.md) | [简体中文](README_CH.md)
-
 </div>
 
 
 <div align="center">
 
-<img width="160" src="docs/hoyobot-logo.png" alt="logo"></br>
+![HoyoBot-SDK](https://socialify.git.ci/HoyoBot/HoyoBot-SDK/image?description=1&descriptionEditable=%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%B1%B3%E6%B8%B8%E7%A4%BE%E5%A4%A7%E5%88%AB%E9%87%8E%E5%8D%8F%E8%AE%AE%E6%94%AF%E6%8C%81%E9%AB%98%E6%95%88%E7%8E%87%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%BA%93&font=Jost&forks=1&issues=1&language=1&logo=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F138961612%3Fs%3D400%26u%3Dd484bee5b3297f446682d6ec90c6e8d07fc86759%26v%3D4&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Light)
+
+</br>
 
 ----
 
@@ -20,7 +20,7 @@
 HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持的高效率机器人库
 
 这个项目的名字来源于
-<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《Mihoyo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
+<p><a href = "https://www.mihoyo.com/">米哈游</a>英文名<a href = "https://www.mihoyo.com/?page=product">《miHoYo》</a>的后两部分(Mi <b>Hoyo</b>)</p>
 <p>其含义是为米哈游旗下软件<a href = "https://www.miyoushe.com/">米游社</a>创造的项目<a href = "https://github.com/HoyoBot/HoyoBot-SDK">(<b>HoyoSDK</b>)</a></p>
 
 
@@ -35,8 +35,8 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 
 ## 特性
 
-- 基于Netty|高性能|易开发
-- 开源的|跨平台|快速开发插件
+- 基于Netty | 高性能| 易开发
+- 开源的 |跨平台 | 快速开发插件
 
 ---------
 
@@ -80,6 +80,10 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 - `help` - 查看命令帮助
 - `plugins` - 列出当前机器人安装的插件
 - `reload` - 热重载机器人插件
+- `getvilla` - 获取大别野信息
+- `getmember` - 获取用户信息
+- `getroom` - 获取房间信息
+- `send` - 发送自定义消息
 
 ## 构建Jar文件
 
@@ -112,6 +116,8 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta6  |
 |  sdk-main  |  beta7  |
 |  sdk-main  |  beta8  |
+|  sdk-main  |  beta9  |
+|  sdk-main  |  beta10 |
 
 ### Gradle:
 
@@ -165,10 +171,13 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 
 - 消息发送
 - 图片发送
+- 帖子发送
 - 成员信息及列表获取
 - 大别野信息及列表获取
 - 踢除用户
 - 消息回复
+- 消息置顶
+- 消息撤回
 
 </details>
 
@@ -188,3 +197,5 @@ HoyoBot将机器人发生的一切都处理为了事件,若你要开发其插件
 - `VillaSendMessageEvent` - 频道成员聊天事件
 
 ---------
+
+[![Star History Chart](https://api.star-history.com/svg?repos=HoyoBot/HoyoBot-SDK&type=Date)](https://star-history.com/#HoyoBot/HoyoBot-SDK&Date)
