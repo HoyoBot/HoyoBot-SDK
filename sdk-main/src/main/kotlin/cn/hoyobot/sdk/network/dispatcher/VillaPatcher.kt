@@ -25,6 +25,7 @@ class VillaPatcher : ProxyActionInterface {
         if (HoyoBot.instance.getBot().debug) HoyoBot.instance.getLogger().debug(request.toString())
         val requestJson = request.jsonData
         val respondEvent = ProxyRespondEvent(HoyoBot.instance, requestJson)
+        respondEvent.headers = request.getHeaders()
         HoyoBot.instance.getEventManager().callEvent(respondEvent)
         //如果事件选择被使用则终止后面的操作
         if (respondEvent.isUsed()) return
