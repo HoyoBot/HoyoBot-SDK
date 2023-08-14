@@ -1,5 +1,6 @@
 package cn.hoyobot.devtools;
 
+import cn.hoyobot.devtools.command.CompilerCommand;
 import cn.hoyobot.devtools.loader.PackageCompiler;
 import cn.hoyobot.devtools.loader.SourcePluginLoader;
 import cn.hoyobot.sdk.plugin.Plugin;
@@ -18,22 +19,23 @@ public class DevTools extends Plugin {
     }
 
     public final PackageCompiler packageCompiler = new PackageCompiler();
+    public final SourcePluginLoader sourcePluginLoader = new SourcePluginLoader(this.getBotProxy());
 
     @Override
     public void onEnable() {
         instance = this;
-
         File data = new File(this.getDataPath(), "packed");
         if (!data.isDirectory() && !data.mkdirs()) {
             this.getLogger().error("在初始化创建文件夹的时候出现错误!");
         }
-
-        if (this.packageCompiler.compiler != null) {
-            List<String> loaders = new ArrayList<>();
-            loaders.add(SourcePluginLoader.class.getName());
-            this.getBotProxy().getPluginManager().enableAllPlugins();
-            //TODO: 启用Custom PluginLoader
+        for (File file : Objects.requireNonNull((new File(this.getDataPath() + "/")).listFiles())) {
+            try {
+                this.sourcePluginLoader.loadPlugin(file);
+            } catch (Exception e) {
+                this.getLogger().error("加载插件文件" + file.getName() + "时出错!", e);
+            }
         }
+        this.getBotProxy().getCommandMap().registerCommand(new CompilerCommand("compiler"));
     }
 
     public static List<File> listFolder(File input, String filter) {

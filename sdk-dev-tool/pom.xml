@@ -50,7 +50,7 @@
         <dependency>
             <groupId>com.github.HoyoBot.HoyoBot-SDK</groupId>
             <artifactId>sdk-main</artifactId>
-            <version>beta10</version>
+            <version>beta11</version>
         </dependency>
     </dependencies>
 
