@@ -33,6 +33,12 @@ open class HoyoBot {
 
     companion object {
         lateinit var instance: HoyoBot
+
+        @JvmStatic
+        fun getInstance(): HoyoBot {
+            return instance
+        }
+
     }
 
     private var address = "0.0.0.0"
