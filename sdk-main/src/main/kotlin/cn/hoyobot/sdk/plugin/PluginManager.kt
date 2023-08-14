@@ -50,8 +50,7 @@ class PluginManager(proxy: HoyoBot) {
         }
         plugins.forEach { (config: PluginYAML, path: Path) ->
             loadPlugin(
-                config,
-                path
+                config, path
             )
         }
     }
@@ -80,8 +79,26 @@ class PluginManager(proxy: HoyoBot) {
             proxy.getLogger().error("无法加载目标插件 " + config.name + "!", e)
             return null
         }
-        proxy.getLogger()
-            .info("插件 " + config.name + " 加载成功! (版本=" + config.version + ",作者=" + config.author + ")")
+        proxy.getLogger().info("插件 " + config.name + " 加载成功! (版本=" + config.version + ",作者=" + config.author + ")")
+        pluginMap[config.name] = plugin
+        HoyoBot.instance.getEventManager().callEvent(ProxyPluginEnableEvent(plugin))
+        return plugin
+    }
+
+    fun loadPluginWithCustomLoader(config: PluginYAML, path: Path, loader: PluginLoader): Plugin? {
+        val pluginFile = path.toFile()
+        if (getPluginByName(config.name) != null) {
+            proxy.getLogger().warn("该插件已经加载过了: " + config.name)
+            return null
+        }
+        val plugin = loader.loadPluginJAR(config, pluginFile) ?: return null
+        try {
+            plugin.onStartup()
+        } catch (e: Exception) {
+            proxy.getLogger().error("无法加载目标插件 " + config.name + "!", e)
+            return null
+        }
+        proxy.getLogger().info("插件 " + config.name + " 加载成功! (版本=" + config.version + ",作者=" + config.author + ")")
         pluginMap[config.name] = plugin
         HoyoBot.instance.getEventManager().callEvent(ProxyPluginEnableEvent(plugin))
         return plugin

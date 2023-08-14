@@ -17,6 +17,7 @@
     <modules>
         <module>sdk-main</module>
         <module>sdk-api</module>
+        <module>sdk-dev-tool</module>
     </modules>
 
 </project>

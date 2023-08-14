@@ -1,0 +1,5 @@
+name: "DevTools"
+main: "cn.hoyobot.devtools.DevTools"
+version: "1.0.0"
+author: "Catrainbow"
+description: "An developer's tools to debug easily!"
