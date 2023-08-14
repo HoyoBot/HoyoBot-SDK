@@ -22,7 +22,12 @@ import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 import kotlin.system.exitProcess
 
-
+/**
+ * HoyoSDK for miHoYo
+ * 米游社机器人协议
+ *
+ * @author Catrainbow
+ */
 @Getter
 open class HoyoBot {
 
