@@ -26,6 +26,8 @@ class VillaPatcher : ProxyActionInterface {
         val requestJson = request.jsonData
         val respondEvent = ProxyRespondEvent(HoyoBot.instance, requestJson)
         HoyoBot.instance.getEventManager().callEvent(respondEvent)
+        //如果事件选择被使用则终止后面的操作
+        if (respondEvent.isUsed()) return
         //处理来自米哈游的请求
         if (!requestJson.containsKey("event")) {
             HoyoBot.instance.getLogger().error("无法处理回调事件! $request")
