@@ -61,7 +61,10 @@ HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持�
 * [说明文档 (Docs)](https://github.com/HoyoBot/HoyoBot-SDK/blob/main/docs/README.md)
 
 ###### 官方插件
+
 * [hoyo-sdk-mollyai](https://github.com/HoyoBot/hoyo-sdk-mollyai)
+* [hoyo-dev-tool](https://github.com/HoyoBot/HoyoBot-SDK/tree/main/sdk-dev-tool)
+* [hoyo-example-plugin](https://github.com/HoyoBot/HoyoBot-SDK/tree/main/sdk-api)
 
 ## 安装 & 运行
 
@@ -118,7 +121,8 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 |  sdk-main  |  beta7  |
 |  sdk-main  |  beta8  |
 |  sdk-main  |  beta9  |
-|  sdk-main  |  beta10 |
+|  sdk-main  | beta10  |
+|  sdk-main  | beta11  |
 
 ### Gradle:
 
@@ -173,6 +177,7 @@ HoyoBot自带的命有这些,当然你也可以通过插件注册自定义机器
 - 消息发送
 - 图片发送
 - 帖子发送
+- 表情发送和管理
 - 成员信息及列表获取
 - 大别野信息及列表获取
 - 踢除用户
@@ -196,6 +201,10 @@ HoyoBot将机器人发生的一切都处理为了事件,若你要开发其插件
 - `ProxyPluginEnableEvent` - 机器人插件加载事件
 - `VillaMemberJoinEvent` - 新成员加入频道事件
 - `VillaSendMessageEvent` - 频道成员聊天事件
+- `VillaAddQuickEmotionEvent` - 快捷表情添加事件
+- `VillaAuditCallbackEvent` - 消息审核事件
+- `VillaCreateBotEvent` - 机器人加入事件
+- `VillaDeleteBotEvent` - 机器人退出事件
 
 ---------
 

@@ -26,7 +26,8 @@ class VillaAddQuickEmotionEvent(type: ProtocolEventType) : VillaEvent(type) {
         this.emotionID = jsonObject.getInt("emoticon_id")
         this.emotionName = jsonObject.getStr("emoticon")
         this.targetMsgID = jsonObject.getStr("msg_uid")
-        this.action = if (jsonObject.getBool("is_cancel")) EmotionActionType.REMOVE_AUDIT else EmotionActionType.ADD_AUDIT
+        this.action =
+            if (jsonObject.getBool("is_cancel")) EmotionActionType.REMOVE_AUDIT else EmotionActionType.ADD_AUDIT
         this.botMsgID = jsonObject.getStr("bot_msg_id")
     }
 
