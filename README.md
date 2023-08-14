@@ -14,7 +14,7 @@
 </br>
 
 ----
-  
+
 # HoyoSDK
 
 HoyoSDK 是一个在全平台下运行，提供 米游社大别野 协议支持的高效率机器人库
@@ -199,6 +199,7 @@ HoyoBot将机器人发生的一切都处理为了事件,若你要开发其插件
 - `ProxyBotStartEvent` - 机器人启动事件
 - `ProxyBotStopEvent` - 机器人关闭事件
 - `ProxyPluginEnableEvent` - 机器人插件加载事件
+- `ProxyRespondEvent` - 机器人响应回调事件
 - `VillaMemberJoinEvent` - 新成员加入频道事件
 - `VillaSendMessageEvent` - 频道成员聊天事件
 - `VillaAddQuickEmotionEvent` - 快捷表情添加事件
