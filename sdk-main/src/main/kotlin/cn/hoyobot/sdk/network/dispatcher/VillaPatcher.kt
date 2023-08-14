@@ -2,6 +2,7 @@ package cn.hoyobot.sdk.network.dispatcher
 
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.event.BotEvent
+import cn.hoyobot.sdk.event.proxy.ProxyRespondEvent
 import cn.hoyobot.sdk.event.villa.*
 import cn.hoyobot.sdk.network.protocol.ProxyActionInterface
 import cn.hoyobot.sdk.network.protocol.ProxyRequest
@@ -23,6 +24,8 @@ class VillaPatcher : ProxyActionInterface {
         //HoyoBot.instance.getLogger().debug("Villa: $request")
         if (HoyoBot.instance.getBot().debug) HoyoBot.instance.getLogger().debug(request.toString())
         val requestJson = request.jsonData
+        val respondEvent = ProxyRespondEvent(HoyoBot.instance, requestJson)
+        HoyoBot.instance.getEventManager().callEvent(respondEvent)
         //处理来自米哈游的请求
         if (!requestJson.containsKey("event")) {
             HoyoBot.instance.getLogger().error("无法处理回调事件! $request")

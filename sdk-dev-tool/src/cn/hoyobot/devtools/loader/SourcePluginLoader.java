@@ -28,7 +28,7 @@ public class SourcePluginLoader extends PluginLoader {
     private final Map<String, SourcePluginClassLoader> classLoaders = new HashMap<>();
 
     public SourcePluginLoader(HoyoBot botProxy) {
-        super();
+        super(botProxy.getPluginManager());
         this.botProxy = botProxy;
         this.tools = DevTools.getInstance();
         this.compiler = DevTools.getInstance().packageCompiler.compiler;
