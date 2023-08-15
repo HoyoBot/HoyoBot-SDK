@@ -25,6 +25,7 @@ import java.util.*
 open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private val nettyRequest: FullHttpRequest) {
     val path: String
     var jsonData: JSONObject = JSONObject()
+    var body: String = ""
     private var ip: String? = null
     private val headers: MutableMap<String, String> = HashMap()
     private val params: MutableMap<String, Any> = HashMap()
@@ -32,6 +33,7 @@ open class ProxyRequest private constructor(ctx: ChannelHandlerContext, private 
 
     init {
         try {
+            this.body = nettyRequest.content().toString(Charsets.UTF_8)
             if (nettyRequest.method() == HttpMethod.POST) this.jsonData =
                 JSONObject(nettyRequest.content().toString(Charsets.UTF_8))
             if (this.jsonData.isEmpty()) {

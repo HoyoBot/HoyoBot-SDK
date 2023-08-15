@@ -8,6 +8,7 @@ class ProxyRespondEvent(bot: HoyoBot, private val data: JSONObject) : ProxyEvent
 
     val botEntry = bot.getBot()
     var headers: Map<String, String> = HashMap()
+    var body: String = ""
     private var used = false
 
     fun isUsed(): Boolean {
