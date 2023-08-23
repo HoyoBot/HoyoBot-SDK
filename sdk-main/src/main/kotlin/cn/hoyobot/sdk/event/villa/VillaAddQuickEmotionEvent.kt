@@ -3,6 +3,7 @@ package cn.hoyobot.sdk.event.villa
 import cn.hoyobot.sdk.HoyoBot
 import cn.hoyobot.sdk.event.types.VillaEvent
 import cn.hoyobot.sdk.network.protocol.mihoyo.Emotion
+import cn.hoyobot.sdk.network.protocol.mihoyo.Member
 import cn.hoyobot.sdk.network.protocol.mihoyo.Villa
 import cn.hoyobot.sdk.network.protocol.type.EmotionActionType
 import cn.hoyobot.sdk.network.protocol.type.ProtocolEventType
@@ -34,6 +35,10 @@ class VillaAddQuickEmotionEvent(type: ProtocolEventType) : VillaEvent(type) {
 
     fun getEmotion(): Emotion {
         return Emotion(this.emotionID, this.emotionName)
+    }
+
+    fun getMember(): Member {
+        return HoyoBot.instance.getBot().getMember(this.uid)
     }
 
     fun getAction(): EmotionActionType {
