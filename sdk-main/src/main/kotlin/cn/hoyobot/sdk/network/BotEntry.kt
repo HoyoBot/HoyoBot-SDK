@@ -1,5 +1,7 @@
 package cn.hoyobot.sdk.network
 
+import cn.hoyobot.sdk.HoyoBot
+import cn.hoyobot.sdk.event.proxy.ProxySendMessageEvent
 import cn.hoyobot.sdk.event.villa.VillaSendMessageEvent
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
@@ -103,6 +105,11 @@ class BotEntry {
     }
 
     fun sendMessage(room: Int, message: Message, type: TextType) {
+        val event = ProxySendMessageEvent(this, message)
+        event.roomID = room
+        event.villaID = this.villaID
+        HoyoBot.instance.getEventManager().callEvent(event)
+        if (event.isCancelled()) return
         when (type) {
             TextType.MESSAGE -> {
                 if (message is MsgContentInfo) {
@@ -159,6 +166,7 @@ class BotEntry {
     fun recallMessage(event: VillaSendMessageEvent) {
         this.recallMessage(event.getMsgID(), event.getRoomID(), event.getSendAt())
     }
+
     fun transferImage(originalLink: String): String {
         val params = JSONObject()
         params["url"] = originalLink;
