@@ -44,7 +44,7 @@ class VillaPatcher : ProxyActionInterface {
         try {
 
             if (HoyoBot.instance.getBot().botKey != "") if (!this.verifyValidity(
-                    request.getHeader("X-Rpc-Bot_sign")!!, requestJson.toJSONString(0)
+                    request.getHeader("X-Rpc-Bot_sign")!!, request.body
                 )
             ) {
                 HoyoBot.instance.getLogger().error("未知的事件: 签名校验错误!")
