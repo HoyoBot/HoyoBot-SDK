@@ -9,6 +9,7 @@ class MsgContentInfo(var value: String) : Message {
 
     private val entities: ArrayList<MessageEntity> = ArrayList()
     private val quotedParent = QuoteInfo()
+    private val messageBadge = MessageBadge()
     override fun build(): JSONObject {
         val jsonObject = JSONObject()
         jsonObject.putByPath("content.text", this.value)
@@ -46,6 +47,11 @@ class MsgContentInfo(var value: String) : Message {
             jsonObject.putByPath("quote.original_message_send_time", this.quotedParent.originalMessageSendAt)
             jsonObject.putByPath("quote.quoted_message_id", this.quotedParent.quotedMessageID)
             jsonObject.putByPath("quote.quoted_message_send_time", this.quotedParent.quotedMessageSendAt)
+        }
+        if (this.messageBadge.enable) {
+            jsonObject.putByPath("content.badge.icon_url", this.messageBadge.iconUrl)
+            jsonObject.putByPath("content.badge.text", this.messageBadge.value)
+            jsonObject.putByPath("content.badge.url", this.messageBadge.url)
         }
         return jsonObject
     }
@@ -110,6 +116,14 @@ class MsgContentInfo(var value: String) : Message {
         entity.length = url.length
         this.addEntity(entity)
         this.append(url)
+        return this
+    }
+
+    fun addBadge(icon: String, value: String, link: String): MsgContentInfo {
+        this.messageBadge.enable = true
+        this.messageBadge.iconUrl = icon
+        this.messageBadge.value = value
+        this.messageBadge.url = link
         return this
     }
 
