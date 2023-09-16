@@ -17,6 +17,7 @@ class BotEntry {
 
     lateinit var botID: String
     lateinit var botSecret: String
+    lateinit var botPrivateSecret: String
     lateinit var botKey: String
     lateinit var villaID: String
     var debug = false

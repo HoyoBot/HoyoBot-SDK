@@ -17,7 +17,6 @@ import java.security.Signature
 import java.security.spec.X509EncodedKeySpec
 import java.util.*
 
-
 class VillaPatcher : ProxyActionInterface {
     override fun doAction(request: ProxyRequest, response: ProxyResponse) {
 
@@ -43,7 +42,7 @@ class VillaPatcher : ProxyActionInterface {
         }
         try {
 
-            if (HoyoBot.instance.getBot().botKey != "") if (!this.verifyValidity(
+            if (HoyoBot.instance.getBot().botKey != "" && !HoyoBot.instance.isIgnoreSignVerify()) if (!this.verifyValidity(
                     request.getHeader("X-Rpc-Bot_sign")!!, request.body
                 )
             ) {
@@ -82,7 +81,7 @@ class VillaPatcher : ProxyActionInterface {
             .replace("-----END PUBLIC KEY-----", "").replace("\r?\n|\r".toRegex(), "")
         val signArg = Base64.getDecoder().decode(sign)
         val encodedBody = URLEncoder.encode(body, "UTF-8")
-        val encodedSecret = URLEncoder.encode(HoyoBot.instance.getBot().botSecret, "UTF-8")
+        val encodedSecret = URLEncoder.encode(HoyoBot.instance.getBot().botPrivateSecret, "UTF-8")
         val str = "body=$encodedBody&secret=$encodedSecret"
         val pubKeyBytes: ByteArray = Base64.getDecoder().decode(pubKey)
         val keySpec = X509EncodedKeySpec(pubKeyBytes)
@@ -91,7 +90,12 @@ class VillaPatcher : ProxyActionInterface {
         val signature = Signature.getInstance("SHA256withRSA")
         signature.initVerify(publicKey)
         signature.update(str.toByteArray(StandardCharsets.UTF_8))
-        return signature.verify(signArg)
+        val status = signature.verify(signArg)
+        if (HoyoBot.instance.getBot().debug) {
+            HoyoBot.instance.getLogger().debug("签名验证信息:\n未验证:\n$str\n正确结果:$sign\n真实结果:${signature.sign()}")
+        }
+        return status
     }
+
 
 }

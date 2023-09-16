@@ -57,6 +57,7 @@ open class HoyoBot {
     private var currentTick = 0
     private var discardOldLogs = 1
     private var httpFilter = false
+    private var ignoreSignVerify = false
 
     fun initBotProxy() {
         instance = this
@@ -75,6 +76,7 @@ open class HoyoBot {
                 put("bot_id", "")
                 put("bot_secret", "")
                 put("bot_key", "")
+                put("ignore_sign_verify", true)
                 put("server-ip", "0:0:0:0")
                 put("port", 80)
                 put("villa-id", "0")
@@ -85,10 +87,12 @@ open class HoyoBot {
         })
         this.botEntry.botID = this.properties.getString("bot_id")
         this.botEntry.botSecret = this.properties.getString("bot_secret")
+        this.botEntry.botPrivateSecret = this.botEntry.botSecret
         this.botEntry.botKey = this.properties.getString("bot_key")
         this.botEntry.villaID = this.properties.getString("villa-id")
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
+        this.ignoreSignVerify = this.properties.getBoolean("ignore_sign_verify")
         this.discardOldLogs = this.properties.getString("discard-old-logs-days").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
@@ -268,6 +272,10 @@ open class HoyoBot {
 
     fun getCommandMap(): CommandMap {
         return this.commandMap
+    }
+
+    fun isIgnoreSignVerify(): Boolean {
+        return this.ignoreSignVerify
     }
 
 }
