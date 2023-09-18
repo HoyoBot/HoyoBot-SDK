@@ -151,6 +151,14 @@ class MsgContentInfo(var value: String) : Message {
         return this
     }
 
+    fun setQuotedParent(id: String, time: Int) {
+        this.quotedParent.enable = true
+        this.quotedParent.quotedMessageID = id
+        this.quotedParent.originalMessageID = id
+        this.quotedParent.quotedMessageSendAt = time
+        this.quotedParent.originalMessageSendAt = time
+    }
+
     fun addEntity(entity: MessageEntity): MsgContentInfo {
         this.entities.add(entity)
         return this
