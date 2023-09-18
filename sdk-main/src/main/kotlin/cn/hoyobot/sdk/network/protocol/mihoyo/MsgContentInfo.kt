@@ -142,7 +142,7 @@ class MsgContentInfo(var value: String) : Message {
         return this
     }
 
-    fun setQuotedParent(id: String, time: Int): MsgContentInfo {
+    fun setQuoted(id: String, time: Int): MsgContentInfo {
         this.quotedParent.enable = true
         this.quotedParent.quotedMessageID = id
         this.quotedParent.originalMessageID = id
