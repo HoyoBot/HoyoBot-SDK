@@ -161,7 +161,7 @@ object Utils {
         val mac = Mac.getInstance("HmacSHA256")
         mac.init(sighKey)
         val raw = mac.doFinal(HoyoBot.instance.getBot().botSecret.toByteArray(Charsets.UTF_8))
-        return DatatypeConverter.printHexBinary(raw).lowercase(Locale.getDefault())
+        return DatatypeConverter.printHexBinary(raw)
     }
 
     private fun hexToBin(ch: Char): Int {
