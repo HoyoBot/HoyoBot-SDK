@@ -195,9 +195,6 @@ class BotEntry {
             request.form(params)
             request.method(method)
             val result = request.execute()
-            if (JSONObject(result).getInt("retcode") != 0) {
-                HoyoBot.instance.getLogger().error("在发起请求时出现错误!\n原因: ${JSONObject(result).getStr("message")}")
-            }
             if (debug) HoyoBot.instance.getLogger().debug(result.body())
             return result
         } else {
@@ -209,9 +206,6 @@ class BotEntry {
             ) else this.botSecret
             map["x-rpc-bot_villa_id"] = this.villaID
             val result = HttpRequest.post(api).addHeaders(map).body(params.toString()).timeout(5 * 60 * 1000).execute()
-            if (JSONObject(result).getInt("retcode") != 0) {
-                HoyoBot.instance.getLogger().error("在发起请求时出现错误!\n原因: ${JSONObject(result).getStr("message")}")
-            }
             if (debug) HoyoBot.instance.getLogger().debug(result.body())
             return result
         }
