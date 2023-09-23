@@ -58,6 +58,7 @@ open class HoyoBot {
     private var discardOldLogs = 1
     private var httpFilter = false
     private var ignoreSignVerify = false
+    private var enableEncrypt = false
 
     fun initBotProxy() {
         instance = this
@@ -76,6 +77,7 @@ open class HoyoBot {
                 put("bot_id", "")
                 put("bot_secret", "")
                 put("bot_key", "")
+                put("enable_encrypt", true)
                 put("ignore_sign_verify", true)
                 put("server-ip", "0:0:0:0")
                 put("port", 80)
@@ -88,7 +90,7 @@ open class HoyoBot {
         this.botEntry.botID = this.properties.getString("bot_id")
         this.botEntry.botSecret = this.properties.getString("bot_secret")
         this.botEntry.botPrivateSecret = this.botEntry.botSecret
-        this.botEntry.botKey = this.properties.getString("bot_key")
+        this.botEntry.botKey = this.properties.getString("bot_key").replace("|", "\n").trimIndent()
         this.botEntry.villaID = this.properties.getString("villa-id")
         this.address = this.properties.getString("server-ip")
         this.port = this.properties.getString("port").toInt()
@@ -96,6 +98,7 @@ open class HoyoBot {
         this.discardOldLogs = this.properties.getString("discard-old-logs-days").toInt()
         this.handlerPath = this.properties.getString("http_call_back")
         this.httpFilter = this.properties.getBoolean("http_filter", false)
+        this.enableEncrypt = this.properties.getBoolean("enable_encrypt", true)
         this.logger.info("HoyoBot已成功在米游社创建!")
 
         this.isRunning = true
@@ -115,10 +118,9 @@ open class HoyoBot {
         this.console = TerminalConsole(this)
         this.consoleSender = ConsoleCommandSender(this)
 
-        this.getBot().botSecret = if (this.getBot().botKey != "") Utils.toRSASecret() else {
-            this.getLogger().warn("你没有填写bot_key以开启加密传输,这可能会导致安全问题!")
-            this.getBot().botSecret
-        }
+        if (this.enableEncrypt) {
+            this.getLogger().warn("安全传输已开启! 如有异常请检查Bot_Key正确填写")
+        } else this.getLogger().warn("你没有填写bot_key以开启加密传输,这可能会导致安全问题!")
 
         this.getEventManager().callEvent(ProxyBotStartEvent(this))
         this.initProxy()
@@ -268,6 +270,10 @@ open class HoyoBot {
 
     fun getConsoleSender(): CommandSender {
         return this.consoleSender
+    }
+
+    fun isEncrypted(): Boolean {
+        return this.enableEncrypt
     }
 
     fun getCommandMap(): CommandMap {

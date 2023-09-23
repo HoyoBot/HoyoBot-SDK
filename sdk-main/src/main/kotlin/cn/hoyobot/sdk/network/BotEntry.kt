@@ -5,6 +5,7 @@ import cn.hoyobot.sdk.event.proxy.ProxySendMessageEvent
 import cn.hoyobot.sdk.event.villa.VillaSendMessageEvent
 import cn.hoyobot.sdk.network.protocol.mihoyo.*
 import cn.hoyobot.sdk.network.protocol.type.TextType
+import cn.hoyobot.sdk.utils.Utils
 import cn.hutool.http.HttpRequest
 import cn.hutool.http.HttpResponse
 import cn.hutool.http.Method
@@ -186,21 +187,33 @@ class BotEntry {
             request.contentType(APPLICATION_JSON.toString())
             val map: MutableMap<String, String> = HashMap()
             map["x-rpc-bot_id"] = this.botID
-            map["x-rpc-bot_secret"] = this.botSecret
+            map["x-rpc-bot_secret"] = if (HoyoBot.instance.isEncrypted()) Utils.encryptHAMCSha256(
+                this.botKey, this.botSecret
+            ) else this.botSecret
             map["x-rpc-bot_villa_id"] = this.villaID
-            map["x-rpc-bot_sign"] = this.botKey
             request = request.addHeaders(map)
             request.form(params)
             request.method(method)
-            return request.execute()
+            val result = request.execute()
+            if (JSONObject(result).getInt("retcode") != 0) {
+                HoyoBot.instance.getLogger().error("在发起请求时出现错误!\n原因: ${JSONObject(result).getStr("message")}")
+            }
+            if (debug) HoyoBot.instance.getLogger().debug(result.body())
+            return result
         } else {
             val map: MutableMap<String, String> = HashMap()
             map["Content-Type"] = "application/json;charset=UTF-8"
             map["x-rpc-bot_id"] = this.botID
-            map["x-rpc-bot_secret"] = this.botSecret
+            map["x-rpc-bot_secret"] = if (HoyoBot.instance.isEncrypted()) Utils.encryptHAMCSha256(
+                this.botKey, this.botSecret
+            ) else this.botSecret
             map["x-rpc-bot_villa_id"] = this.villaID
-            map["x-rpc-bot_sign"] = this.botKey
-            return HttpRequest.post(api).addHeaders(map).body(params.toString()).timeout(5 * 60 * 1000).execute()
+            val result = HttpRequest.post(api).addHeaders(map).body(params.toString()).timeout(5 * 60 * 1000).execute()
+            if (JSONObject(result).getInt("retcode") != 0) {
+                HoyoBot.instance.getLogger().error("在发起请求时出现错误!\n原因: ${JSONObject(result).getStr("message")}")
+            }
+            if (debug) HoyoBot.instance.getLogger().debug(result.body())
+            return result
         }
     }
 }
